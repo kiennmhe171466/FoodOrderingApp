@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "880435838180",
+    "project_id": "prm392foodorderingapp",
+    "storage_bucket": "prm392foodorderingapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:880435838180:android:e9af6a0d8fb3ba9e9000f1",
+        "android_client_info": {
+          "package_name": "com.example.foodorderingapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-h5jyN4E8vrH5emCSAxk5W8FRD57sGXQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

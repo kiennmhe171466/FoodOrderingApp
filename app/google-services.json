@@ -2,7 +2,8 @@
   "project_info": {
     "project_number": "880435838180",
     "project_id": "prm392foodorderingapp",
-    "storage_bucket": "prm392foodorderingapp.appspot.com"
+    "storage_bucket": "prm392foodorderingapp.appspot.com",
+    "firebase_url": "https://prm392foodorderingapp-default-rtdb.asia-southeast1.firebasedatabase.app/"
   },
   "client": [
     {

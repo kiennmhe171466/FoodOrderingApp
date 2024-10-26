@@ -32,8 +32,6 @@
             app:tabIndicatorFullWidth="false"
             app:tabIndicatorHeight="3dp">
         </com.google.android.material.tabs.TabLayout>
-
-
     </LinearLayout>
 
     <androidx.viewpager2.widget.ViewPager2

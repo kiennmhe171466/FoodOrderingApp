@@ -13,7 +13,6 @@ public class LoginSignUpAdapter extends FragmentStateAdapter {
     public LoginSignUpAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
-
     @NonNull
     @Override
     public Fragment createFragment(int position) {

@@ -1,7 +1,7 @@
-plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.google.gms.google.services)
-}
+    plugins {
+        alias(libs.plugins.android.application)
+        id("com.google.gms.google-services")
+    }
 
 android {
     namespace = "com.example.foodorderingapp"
@@ -46,6 +46,6 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation("com.google.firebase:firebase-auth:22.3.0")
-
+    implementation ("com.google.firebase:firebase-database:21.0.0")
 
 }

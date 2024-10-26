@@ -1,12 +1,14 @@
 package com.example.foodorderingapp.Activities.Home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.foodorderingapp.Activities.BaseActivity;
 import com.example.foodorderingapp.databinding.ActivityIntroBinding;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class IntroActivity extends AppCompatActivity {
     ActivityIntroBinding binding;
 
@@ -19,18 +21,16 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     private void setVariable() {
-        binding.loginBtn.setOnClickListener(new View.OnClickListener() {
+        binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Handle login button click
+                Intent intent = new Intent(IntroActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
 
-        binding.signupBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle signup button click
-            }
-        });
+        FirebaseAuth.getInstance().signOut();
+
     }
 }

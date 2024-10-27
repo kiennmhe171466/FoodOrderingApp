@@ -26,8 +26,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         getWindow().setStatusBarColor(Color.parseColor("#E8584D"));
         getWindow().setNavigationBarColor(Color.parseColor("#E8584D"));
+
+
         myFragmentAdapter = new LoginSignUpAdapter(LoginActivity.this);
         binding.viewpaper2.setAdapter(myFragmentAdapter);
         TabLayout.Tab tabLogin = binding.tablayoutHome.newTab();
@@ -61,12 +64,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // Sign out the user when the app is closed
-        FirebaseAuth.getInstance().signOut();
-    }
+
     @Override
     protected void onStart() {
         super.onStart();

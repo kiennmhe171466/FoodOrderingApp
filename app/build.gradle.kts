@@ -47,5 +47,8 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation("com.google.firebase:firebase-auth:22.3.0")
     implementation ("com.google.firebase:firebase-database:21.0.0")
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
+    implementation ("com.orhanobut:dialogplus:1.11@aar")
 
 }

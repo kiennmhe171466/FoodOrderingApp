@@ -137,4 +137,5 @@ public class ProfileActivity extends AppCompatActivity {
         // Show the dialog
         dialog.show();
     }
+
 }

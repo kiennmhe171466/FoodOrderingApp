@@ -8,4 +8,6 @@
         android:iconTint="#FFFFFF"
         android:icon="@drawable/cart_icon"
         android:title="Cart" />
+
+
 </menu>

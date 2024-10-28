@@ -12,24 +12,35 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
+import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.foodorderingapp.Activities.Order.OrderActivity;
+import com.example.foodorderingapp.Domain.Cart;
 import com.example.foodorderingapp.Fragments.Home.HomeFragment;
 import com.example.foodorderingapp.R;
 import com.example.foodorderingapp.databinding.ActivityHomeBinding;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.example.foodorderingapp.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +49,8 @@ public class HomeActivity extends AppCompatActivity
     private String userId;
     private ActivityHomeBinding binding;
     private LinearLayout layoutMain;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,43 +65,76 @@ public class HomeActivity extends AppCompatActivity
         getWindow().setStatusBarColor(Color.parseColor("#E8584D"));
         getWindow().setNavigationBarColor(Color.parseColor("#E8584D"));
         binding.navigationLeft.bringToFront();
+        createActionBar();
+        setCartNavigation();
         layoutMain = binding.layoutMain;
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(layoutMain.getId(),new HomeFragment(userId))
+                .replace(layoutMain.getId(), new HomeFragment(userId))
                 .commit();
         binding.navigationLeft.setNavigationItemSelectedListener(this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_home_top,menu);
+        getMenuInflater().inflate(R.menu.menu_home_top, menu);
         return true;
     }
 
-    private void requestPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            String[] permissions = {
-                    Manifest.permission.POST_NOTIFICATIONS,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-            };
+    private void createActionBar() {
+        setSupportActionBar(binding.toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.menu_icon);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("");
+    }
 
-            List<String> permissionsNeeded = new ArrayList<>();
+    private void setCartNavigation() {
+        binding.toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.cart_menu) {
+                FirebaseDatabase.getInstance().getReference().child("Carts")
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot ds : snapshot.getChildren()) {
+                                    Cart cart = ds.getValue(Cart.class);
+                                    if (cart != null && cart.getUserId().equals(userId)) {
+                                        FirebaseDatabase.getInstance().getReference()
+                                                .child("CartInfos").child(cart.getCartId())
+                                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                                        if (snapshot.getChildrenCount() == 0) {
+//                                                            // Navigate to EmptyCartActivity if cart is empty
+//                                                            startActivity(new Intent(HomeActivity.this, EmptyCartActivity.class));
+//                                                        } else {
+//                                                            // Navigate to CartActivity if cart has items
+//                                                            Intent intent = new Intent(HomeActivity.this, CartActivity.class);
+//                                                            intent.putExtra("userId", userId);
+//                                                            startActivity(intent);
+//                                                        }
+                                                    }
 
-            for (String permission : permissions) {
-                if (ContextCompat.checkSelfPermission(this, permission)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    permissionsNeeded.add(permission);
-                }
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+                                                        // Handle possible errors
+                                                        Toast.makeText(HomeActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                // Handle possible errors
+                                Toast.makeText(HomeActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                return true;
             }
-
-            if (!permissionsNeeded.isEmpty()) {
-                ActivityCompat.requestPermissions(this,
-                        permissionsNeeded.toArray(new String[0]),
-                        101);
-            }
-        }
+            return false;
+        });
     }
 
     @Override
@@ -126,5 +172,12 @@ public class HomeActivity extends AppCompatActivity
         binding.drawLayoutHome.close();
         return true;
     }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            binding.drawLayoutHome.openDrawer(GravityCompat.START);
+        }
 
+        return super.onOptionsItemSelected(item);
+    }
 }

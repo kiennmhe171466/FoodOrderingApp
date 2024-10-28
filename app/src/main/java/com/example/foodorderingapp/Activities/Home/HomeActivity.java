@@ -33,7 +33,8 @@ import com.example.foodorderingapp.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
     private String userId;
     private ActivityHomeBinding binding;
     private LinearLayout layoutMain;
@@ -64,6 +65,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         getMenuInflater().inflate(R.menu.menu_home_top,menu);
         return true;
     }
+
     private void requestPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             String[] permissions = {
@@ -88,6 +90,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.profileMenu) {
@@ -114,13 +117,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss(); // Dismiss the dialog
+                            dialog.dismiss();
                         }
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
         }
-
         binding.drawLayoutHome.close();
         return true;
     }

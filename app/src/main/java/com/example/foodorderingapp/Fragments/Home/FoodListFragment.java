@@ -42,44 +42,37 @@ public class FoodListFragment extends Fragment {
         initUI();
         return view;
     }
+
     private void initUI() {
-        LinearLayoutManager linearLayoutManager = new
-                LinearLayoutManager(getActivity().getApplicationContext(),
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
+                getActivity().getApplicationContext(),
                 LinearLayoutManager.HORIZONTAL,
-                false);
+                false
+        );
         binding.rycFoodHome.setLayoutManager(linearLayoutManager);
         adapter = new FoodItemAdapter(foodList, userId, getContext());
         binding.rycFoodHome.setAdapter(adapter);
         binding.rycFoodHome.setHasFixedSize(true);
-//        binding.txtSeemoreDrink.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), FindActivity.class);
-//                intent.putExtra("userId", userId);
-//                startActivity(intent);
-//            }
-//        });
     }
 
     private void initData() {
         foodList = new ArrayList<>();
-        FirebaseDatabase.getInstance().getReference("Products")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("Products").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Product product = ds.getValue(Product.class);
-                    if (product != null && !product.getState().equals("deleted")
-                            && product.getProductType().equalsIgnoreCase("Food")) {
+                    if (product != null) {
                         foodList.add(product);
                     }
-                    adapter.notifyDataSetChanged();
                 }
+                adapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }
+
 }

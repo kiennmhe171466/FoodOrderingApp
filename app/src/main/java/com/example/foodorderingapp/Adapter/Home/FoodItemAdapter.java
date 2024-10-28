@@ -56,7 +56,7 @@ public class FoodItemAdapter extends RecyclerView.Adapter {
         ViewHolder newHolder = (ViewHolder) holder;
         Product item = ds.get(position);
         Glide.with(newHolder.binding.getRoot())
-                .load(item.getProductImage1())
+                .load(item.getProductImage())
                 .into(newHolder.binding.imgFood);
         newHolder.binding.txtFoodName.setText(item.getProductName());
         newHolder.binding.txtFoodPrice.setText(nf.format(item.getProductPrice()));

@@ -29,8 +29,6 @@ public class LoginActivity extends AppCompatActivity {
 
         getWindow().setStatusBarColor(Color.parseColor("#E8584D"));
         getWindow().setNavigationBarColor(Color.parseColor("#E8584D"));
-
-
         myFragmentAdapter = new LoginSignUpAdapter(LoginActivity.this);
         binding.viewpaper2.setAdapter(myFragmentAdapter);
         TabLayout.Tab tabLogin = binding.tablayoutHome.newTab();

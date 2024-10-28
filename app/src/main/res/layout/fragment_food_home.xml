@@ -12,7 +12,7 @@
         android:layout_gravity="end"
         android:layout_marginEnd="30dp"
         android:fontFamily="@font/sfpro_semibold"
-        android:text="See more ->"
+        android:text="See more ..."
         android:textColor="#FA4A0C"
         android:textSize="16sp" />
 

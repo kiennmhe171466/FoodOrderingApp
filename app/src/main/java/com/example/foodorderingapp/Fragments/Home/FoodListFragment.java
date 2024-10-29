@@ -69,6 +69,8 @@ public class FoodListFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
 
+
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }

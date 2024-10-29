@@ -24,7 +24,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private ActivityProductDetailBinding binding;
     private String productId;
     private String productName;
-    private int productPrice;
+    private double productPrice;
     private String productDescription;
     private Double ratingStar;
     private String productImage;
@@ -48,7 +48,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         productId = intent.getStringExtra("productId");
         productName = intent.getStringExtra("productName");
-        productPrice = intent.getIntExtra("productPrice",0);
+        productPrice = intent.getDoubleExtra("productPrice",0);
         productImage = intent.getStringExtra("productImage");
         userName = intent.getStringExtra("userName");
         productDescription = intent.getStringExtra("productDescription");
@@ -57,7 +57,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
 
         binding.titleTxt.setText(productName);
-      //  binding.priceTxt.setText(CurrencyFormatter.getFormatter().format(Double.valueOf(productPrice)));
+        binding.priceTxt.setText(String.valueOf("VND " + productPrice));
         binding.descriptionTxt.setText(productDescription);
         Glide.with(ProductDetailActivity.this)
                 .load(productImage)
@@ -196,6 +196,29 @@ public class ProductDetailActivity extends AppCompatActivity {
                 // Case when the product is already in the cart
                 Toast.makeText(ProductDetailActivity.this, "This product has already been in the cart!", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    public void AddQuantity(View view) {
+        int num = Integer.parseInt(binding.numTxt.getText().toString());
+        num++;
+        binding.numTxt.setText(String.valueOf(num));
+        binding.totalPriceTxt.setText(String.valueOf(num * productPrice));
+        if(num > 10){
+            Toast.makeText(ProductDetailActivity.this, "Your max quantity of order is 10", Toast.LENGTH_SHORT).show();
+            binding.numTxt.setText(String.valueOf(10));
+            binding.totalPriceTxt.setText(String.valueOf(10 * productPrice));
+        }
+    }
+
+    public void SubtractQuantity(View view) {
+        int num = Integer.parseInt(binding.numTxt.getText().toString());
+        if (num > 0) {
+            num--;
+            binding.numTxt.setText(String.valueOf(num));
+            binding.totalPriceTxt.setText(String.valueOf(num * productPrice));
+        }else{
+            Toast.makeText(ProductDetailActivity.this, "Your quantity is currently 0", Toast.LENGTH_SHORT).show();
         }
     }
 }

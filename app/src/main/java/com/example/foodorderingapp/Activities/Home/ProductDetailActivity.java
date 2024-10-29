@@ -3,14 +3,17 @@ package com.example.foodorderingapp.Activities.Home;
 import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.foodorderingapp.Domain.Food;
 import com.example.foodorderingapp.R;
-import com.example.foodorderingapp.databinding.ActivityProfileBinding;
+import com.example.foodorderingapp.databinding.ActivityProductDetailBinding;
 
 public class ProductDetailActivity extends AppCompatActivity {
-    //private ActivityProductInfoBinding binding;
+    private ActivityProductDetailBinding binding;
+    private Food object;
     private String productId;
     private String productName;
     private int productPrice;
@@ -34,6 +37,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_detail);
+        binding = ActivityProductDetailBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
     }
 }

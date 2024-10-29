@@ -1,6 +1,7 @@
 package com.example.foodorderingapp.Activities.Home;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,12 +35,14 @@ import com.google.firebase.storage.UploadTask;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 
+import java.util.Calendar;
 import java.util.Objects;
 
 public class ProfileActivity extends AppCompatActivity {
     private ActivityProfileBinding binding;
     private String userId;
-    private Uri imageUri;  // To hold selected image URI
+    private Uri imageUri;
+    private String originalAvatarUrl;  // To store the original avatar URL
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
@@ -52,7 +56,7 @@ public class ProfileActivity extends AppCompatActivity {
         userId = intent.getStringExtra("userId");
 
         initToolbar();
-        getUserInfo(ProfileActivity.this);
+        getUserInfo(this);
 
         binding.cardViewOrders.setOnClickListener(view -> {
             Intent intent1 = new Intent(ProfileActivity.this, OrderActivity.class);
@@ -70,10 +74,18 @@ public class ProfileActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle("Profile");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         binding.toolbar.setNavigationOnClickListener(view -> {
-            Intent intent = new Intent();
-            setResult(RESULT_OK, intent);
+            setResult(RESULT_OK, new Intent());
             finish();
         });
+    }
+
+    private void loadUserAvatar(String avatarUrl) {
+        if (!isDestroyed()) {
+            Glide.with(this)
+                    .load(avatarUrl)
+                    .placeholder(R.drawable.default_avatar)
+                    .into(binding.userAvatar);
+        }
     }
 
     private void getUserInfo(Context mContext) {
@@ -87,10 +99,9 @@ public class ProfileActivity extends AppCompatActivity {
                             binding.userEmail.setText(user.getEmail());
                             binding.userPhoneNumber.setText(user.getPhoneNumber());
                             binding.userDob.setText(user.getBirthDate());
-                            Glide.with(mContext.getApplicationContext())
-                                    .load(user.getAvatarURL())
-                                    .placeholder(R.drawable.default_avatar)
-                                    .into(binding.userAvatar);
+
+                            originalAvatarUrl = user.getAvatarURL();  // Save the original URL
+                            loadUserAvatar(originalAvatarUrl);
                         }
                     }
 
@@ -118,22 +129,25 @@ public class ProfileActivity extends AppCompatActivity {
         EditText editUserDob = dialogView.findViewById(R.id.edit_user_dob);
         Button saveButton = dialogView.findViewById(R.id.save_button);
 
-        // Load current avatar into the ImageView
-        Glide.with(this).load(binding.userAvatar.getDrawable()).into(editUserAvatar);
+        // Load the current avatar
+        Glide.with(this).load(originalAvatarUrl).into(editUserAvatar);
 
-        // Set other fields with current user information
+        // Set the fields with current user information
         editUserName.setText(binding.userName.getText());
         editUserEmail.setText(binding.userEmail.getText());
+        editUserEmail.setEnabled(false);  // Make email read-only
         editUserPhone.setText(binding.userPhoneNumber.getText());
         editUserDob.setText(binding.userDob.getText());
 
         changePhotoButton.setOnClickListener(v -> openImagePicker());
 
+        editUserDob.setOnClickListener(v -> showDatePicker(editUserDob));
+
         saveButton.setOnClickListener(v -> {
             if (imageUri != null) {
-                uploadImageToFirebase(dialog, editUserName, editUserEmail, editUserPhone, editUserDob);
+                uploadImageToFirebase(dialog, editUserName, editUserPhone, editUserDob);
             } else {
-                saveUserInfoWithoutAvatar(editUserName, editUserEmail, editUserPhone, editUserDob);
+                saveUserInfoWithoutAvatar(editUserName, editUserPhone, editUserDob);
                 dialog.dismiss();
             }
         });
@@ -151,18 +165,33 @@ public class ProfileActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
             imageUri = data.getData();
-            binding.userAvatar.setImageURI(imageUri);  // Update UI with selected image
+            binding.userAvatar.setImageURI(imageUri);  // Update avatar in UI
         }
     }
 
-    private void uploadImageToFirebase(DialogPlus dialog, EditText editUserName, EditText editUserEmail,
+    private void showDatePicker(EditText dobField) {
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+                    String dob = String.format("%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear);
+                    dobField.setText(dob);
+                }, year, month, day);
+
+        datePickerDialog.show();
+    }
+
+    private void uploadImageToFirebase(DialogPlus dialog, EditText editUserName,
                                        EditText editUserPhone, EditText editUserDob) {
         StorageReference storageRef = FirebaseStorage.getInstance().getReference("avatars/" + userId + ".jpg");
 
         storageRef.putFile(imageUri).addOnSuccessListener(taskSnapshot ->
                 storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
                     String avatarUrl = uri.toString();
-                    saveUserInfoWithAvatar(avatarUrl, editUserName, editUserEmail, editUserPhone, editUserDob);
+                    saveUserInfoWithAvatar(avatarUrl, editUserName, editUserPhone, editUserDob);
                     dialog.dismiss();
                 })
         ).addOnFailureListener(e ->
@@ -170,11 +199,16 @@ public class ProfileActivity extends AppCompatActivity {
         );
     }
 
-    private void saveUserInfoWithAvatar(String avatarUrl, EditText editUserName, EditText editUserEmail,
+    private void saveUserInfoWithAvatar(String avatarUrl, EditText editUserName,
                                         EditText editUserPhone, EditText editUserDob) {
-        User user = new User(userId, editUserEmail.getText().toString(), avatarUrl,
-                editUserName.getText().toString(), editUserDob.getText().toString(),
-                editUserPhone.getText().toString());
+        User user = new User(
+                userId,
+                binding.userEmail.getText().toString(),
+                avatarUrl,
+                editUserName.getText().toString(),
+                editUserDob.getText().toString(),
+                editUserPhone.getText().toString()
+        );
 
         FirebaseUserInfoHelper firebaseHelper = new FirebaseUserInfoHelper(this);
         firebaseHelper.updateUserInfo(userId, user);
@@ -182,11 +216,16 @@ public class ProfileActivity extends AppCompatActivity {
         Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
     }
 
-    private void saveUserInfoWithoutAvatar(EditText editUserName, EditText editUserEmail,
+    private void saveUserInfoWithoutAvatar(EditText editUserName,
                                            EditText editUserPhone, EditText editUserDob) {
-        User user = new User(userId, editUserEmail.getText().toString(), binding.userAvatar.getDrawable().toString(),
-                editUserName.getText().toString(), editUserDob.getText().toString(),
-                editUserPhone.getText().toString());
+        User user = new User(
+                userId,
+                binding.userEmail.getText().toString(),
+                originalAvatarUrl,  // Use the original avatar URL
+                editUserName.getText().toString(),
+                editUserDob.getText().toString(),
+                editUserPhone.getText().toString()
+        );
 
         FirebaseUserInfoHelper firebaseHelper = new FirebaseUserInfoHelper(this);
         firebaseHelper.updateUserInfo(userId, user);

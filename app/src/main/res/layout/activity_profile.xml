@@ -123,7 +123,7 @@
                 android:textColor="#717171"
                 android:textSize="15sp" />
 
-            <!-- New DOB TextView -->
+
             <TextView
                 android:id="@+id/user_dob"
                 android:layout_width="wrap_content"

@@ -16,6 +16,7 @@
             android:name=".Activities.Home.HomeActivity"
             android:exported="false" />
         <activity android:name=".Activities.Home.LoginActivity" />
+        <activity android:name=".Activities.Home.ProfileActivity" />
         <activity
             android:name=".Activities.Home.IntroActivity"
             android:exported="true">

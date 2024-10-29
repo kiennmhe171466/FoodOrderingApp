@@ -1,4 +1,4 @@
-package com.example.foodorderingapp.Adapter.Home;
+package com.example.foodorderingapp.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,9 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.example.foodorderingapp.Activities.Home.ProductDetailActivity;
+import com.example.foodorderingapp.Activities.ProductDetailActivity;
 import com.example.foodorderingapp.Domain.Product;
-import com.example.foodorderingapp.databinding.ItemCategoryHomeBinding;
 import com.example.foodorderingapp.databinding.ItemFoodHomeBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

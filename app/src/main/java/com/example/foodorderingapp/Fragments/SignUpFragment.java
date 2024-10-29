@@ -1,4 +1,4 @@
-package com.example.foodorderingapp.Fragments.Home;
+package com.example.foodorderingapp.Fragments;
 
 import android.content.DialogInterface;
 import android.os.Bundle;

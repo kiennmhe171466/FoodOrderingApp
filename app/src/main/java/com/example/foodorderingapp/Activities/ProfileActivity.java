@@ -1,4 +1,4 @@
-package com.example.foodorderingapp.Activities.Home;
+package com.example.foodorderingapp.Activities;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.example.foodorderingapp.Activities.Order.OrderActivity;
 import com.example.foodorderingapp.Helpers.FirebaseUserInfoHelper;
 import com.example.foodorderingapp.Domain.User;
 import com.example.foodorderingapp.R;
@@ -31,7 +29,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 
@@ -42,7 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ActivityProfileBinding binding;
     private String userId;
     private Uri imageUri;
-    private String originalAvatarUrl;  // To store the original avatar URL
+    private String originalAvatarUrl;  
 
     private static final int PICK_IMAGE_REQUEST = 1;
 

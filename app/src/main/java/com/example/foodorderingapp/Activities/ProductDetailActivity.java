@@ -1,4 +1,4 @@
-package com.example.foodorderingapp.Activities.Home;
+package com.example.foodorderingapp.Activities;
 
 import android.app.Notification;
 import android.content.Intent;
@@ -12,10 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.foodorderingapp.Domain.Cart;
 import com.example.foodorderingapp.Domain.CartInfo;
-import com.example.foodorderingapp.Domain.CurrencyFormatter;
-import com.example.foodorderingapp.Domain.Food;
+
 import com.example.foodorderingapp.Helpers.FirebaseAddToCartHelper;
-import com.example.foodorderingapp.R;
 import com.example.foodorderingapp.databinding.ActivityProductDetailBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,7 +22,6 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ProductDetailActivity extends AppCompatActivity {
     private ActivityProductDetailBinding binding;
-    private Food object;
     private String productId;
     private String productName;
     private int productPrice;
@@ -53,28 +50,18 @@ public class ProductDetailActivity extends AppCompatActivity {
         productName = intent.getStringExtra("productName");
         productPrice = intent.getIntExtra("productPrice",0);
         productImage = intent.getStringExtra("productImage");
-        //ratingStar = intent.getDoubleExtra("ratingStar",0.0);
         userName = intent.getStringExtra("userName");
         productDescription = intent.getStringExtra("productDescription");
-        //publisherId = intent.getStringExtra("publisherId");
         userId = intent.getStringExtra("userId");
-        //sold = intent.getIntExtra("sold",0);
-        //productType = intent.getStringExtra("productType");
-        //remainAmount = intent.getIntExtra("remainAmount", 0);
-        //ratingAmount = intent.getIntExtra("ratingAmount", 0);
         state = intent.getStringExtra("state");
 
-        // set up default value
+
         binding.titleTxt.setText(productName);
-        binding.priceTxt.setText(CurrencyFormatter.getFormatter().format(Double.valueOf(productPrice)));
+      //  binding.priceTxt.setText(CurrencyFormatter.getFormatter().format(Double.valueOf(productPrice)));
         binding.descriptionTxt.setText(productDescription);
         Glide.with(ProductDetailActivity.this)
                 .load(productImage)
                 .into(binding.productImg);
-        //binding.txtSell.setText(String.valueOf(sold));
-        //binding.ratingBar.setRating(ratingStar.floatValue());
-        //binding.txtRemainAmount.setText(String.valueOf(remainAmount));
-
         // load data cart
         final boolean[] isCartExists = new boolean[1];
         final boolean[] isProductExists = new boolean[1];

@@ -1,12 +1,12 @@
-package com.example.foodorderingapp.Adapter.Home;
+package com.example.foodorderingapp.Adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.foodorderingapp.Fragments.Home.LoginFragment;
-import com.example.foodorderingapp.Fragments.Home.SignUpFragment;
+import com.example.foodorderingapp.Fragments.LoginFragment;
+import com.example.foodorderingapp.Fragments.SignUpFragment;
 
 public class LoginSignUpAdapter extends FragmentStateAdapter {
 

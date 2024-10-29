@@ -147,6 +147,9 @@ public class HomeActivity extends AppCompatActivity
             Intent intent1 = new Intent(this, OrderActivity.class);
             intent1.putExtra("userId", userId);
             startActivity(intent1);
+        }else if (item.getItemId() == R.id.chwg_pwd) {
+
+            startActivity(new Intent(this, ChangePasswordActivity.class));
         } else if (item.getItemId() == R.id.logoutMenu) {
             new AlertDialog.Builder(HomeActivity.this)
                     .setTitle("Logout")

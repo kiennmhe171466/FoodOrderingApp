@@ -13,7 +13,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.example.foodorderingapp.Activities.Home.ProductDetailActivity;
 import com.example.foodorderingapp.Domain.Product;
-import com.example.foodorderingapp.databinding.ItemHomeBinding;
+import com.example.foodorderingapp.databinding.ItemCategoryHomeBinding;
+import com.example.foodorderingapp.databinding.ItemFoodHomeBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -39,10 +40,8 @@ public class FoodItemAdapter extends RecyclerView.Adapter {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 userName = snapshot.child("userName").getValue(String.class);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }
@@ -50,9 +49,8 @@ public class FoodItemAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(ItemHomeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        return new ViewHolder(ItemFoodHomeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false) );
     }
-
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolder newHolder = (ViewHolder) holder;
@@ -86,18 +84,16 @@ public class FoodItemAdapter extends RecyclerView.Adapter {
         });
 
     }
-
     @Override
     public int getItemCount() {
         return ds == null ? 0 : ds.size();
     }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final ItemHomeBinding binding;
-
-        public ViewHolder(@NonNull ItemHomeBinding binding) {
+    private static class ViewHolder extends RecyclerView.ViewHolder {
+        private final ItemFoodHomeBinding binding;
+        public ViewHolder(@NonNull ItemFoodHomeBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
+
     }
 }

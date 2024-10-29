@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.viewpaper2.setAdapter(myFragmentAdapter);
         TabLayout.Tab tabLogin = binding.tablayoutHome.newTab();
         tabLogin.setText("Login");
+
         binding.tablayoutHome.addTab(binding.tablayoutHome.newTab().setText("Login"));
         binding.tablayoutHome.addTab(binding.tablayoutHome.newTab().setText("Sign Up"));
         binding.tablayoutHome.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -40,15 +41,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 binding.viewpaper2.setCurrentItem(tab.getPosition());
             }
-
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
-
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
         binding.viewpaper2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -62,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
     @Override
     protected void onStart() {
         super.onStart();

@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.foodorderingapp.Adapter.Home.CategoryItemAdapter;
 import com.example.foodorderingapp.Adapter.Home.FoodAdapter;
+import com.example.foodorderingapp.Adapter.Home.FoodCategoryAdapter;
 import com.example.foodorderingapp.databinding.FragmentHomeBinding;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -30,8 +32,12 @@ public class HomeFragment extends Fragment {
     }
     private void initUI() {
         FoodAdapter foodAdapter = new FoodAdapter(HomeFragment.this, userId);
-        binding.viewpaperHome.setAdapter(foodAdapter);
-        binding.viewpaperHome.setUserInputEnabled(false);
+        binding.foodListSlider.setAdapter(foodAdapter);
+        binding.foodListSlider.setUserInputEnabled(false);
+
+        FoodCategoryAdapter categoryAdapter = new FoodCategoryAdapter(HomeFragment.this);
+        binding.categoryListSlider.setAdapter(categoryAdapter);
+        binding.categoryListSlider.setUserInputEnabled(false);
 //        binding.layoutSearchView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {

@@ -96,7 +96,6 @@ public class ProfileActivity extends AppCompatActivity {
                 .setExpanded(true, LinearLayout.LayoutParams.WRAP_CONTENT) // Adjust as needed
                 .create();
 
-        // Access the dialog's content view directly from the holder
         View dialogView = holder.getInflatedView();
 
         EditText editUserName = dialogView.findViewById(R.id.edit_user_name);
@@ -105,20 +104,17 @@ public class ProfileActivity extends AppCompatActivity {
         EditText editUserDob = dialogView.findViewById(R.id.edit_user_dob);
         Button saveButton = dialogView.findViewById(R.id.save_button);
 
-        // Populate existing user data in the EditTexts
         editUserName.setText(binding.userName.getText());
         editUserEmail.setText(binding.userEmail.getText());
         editUserPhone.setText(binding.userPhoneNumber.getText());
         editUserDob.setText(binding.userDob.getText());
 
-        // Handle the save button click
         saveButton.setOnClickListener(v -> {
             String userName = editUserName.getText().toString().trim();
             String userEmail = editUserEmail.getText().toString().trim();
             String userPhone = editUserPhone.getText().toString().trim();
             String userDob = editUserDob.getText().toString().trim();
 
-            // Create User object
             User user = new User();
             user.setUserId(userId);
             user.setUserName(userName);
@@ -126,15 +122,12 @@ public class ProfileActivity extends AppCompatActivity {
             user.setPhoneNumber(userPhone);
             user.setBirthDate(userDob);
 
-            // Update user info in Firebase
             FirebaseUserInfoHelper firebaseHelper = new FirebaseUserInfoHelper(this);
             firebaseHelper.updateUserInfo(userId, user);
 
-            // Dismiss dialog
             dialog.dismiss();
         });
 
-        // Show the dialog
         dialog.show();
     }
 

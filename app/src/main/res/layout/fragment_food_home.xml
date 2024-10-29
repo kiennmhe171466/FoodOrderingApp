@@ -6,15 +6,15 @@
     android:orientation="vertical"
     tools:context=".Fragments.Home.FoodListFragment">
     <TextView
-        android:id="@+id/txtSeemoreFood"
+        android:id="@+id/txtFoodList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
+        android:layout_gravity="start"
         android:layout_marginEnd="30dp"
         android:fontFamily="@font/sfpro_semibold"
-        android:text="See more ..."
+        android:text="Food Menu"
         android:textColor="#FA4A0C"
-        android:textSize="16sp" />
+        android:textSize="25sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rycFoodHome"

@@ -3,6 +3,7 @@ package com.example.foodorderingapp.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     private EditText currentPassword, newPassword, confirmPassword;
     private Button changePasswordButton;
+    private Button btnBack;
     private FirebaseAuth firebaseAuth;
 
     @Override
@@ -36,8 +38,15 @@ public class ChangePasswordActivity extends AppCompatActivity {
         newPassword = findViewById(R.id.new_password);
         confirmPassword = findViewById(R.id.confirm_password);
         changePasswordButton = findViewById(R.id.change_password_button);
+        btnBack = findViewById(R.id.backBtn);
 
         changePasswordButton.setOnClickListener(v -> changePassword());
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void changePassword() {

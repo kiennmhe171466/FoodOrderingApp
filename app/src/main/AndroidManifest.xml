@@ -18,6 +18,7 @@
         <activity android:name=".Activities.LoginActivity" />
         <activity android:name=".Activities.ProfileActivity" />
         <activity android:name=".Activities.ChangePasswordActivity" />
+        <activity android:name=".Activities.ForgotPasswordActivity" />
         <activity
             android:name=".Activities.IntroActivity"
             android:exported="true">

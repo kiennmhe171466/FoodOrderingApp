@@ -53,6 +53,8 @@ public class LoginActivity extends AppCompatActivity {
                 super.onPageScrollStateChanged(state);
             }
         });
+
+
     }
     @Override
     protected void onStart() {

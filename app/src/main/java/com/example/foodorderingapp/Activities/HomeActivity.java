@@ -6,7 +6,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -15,11 +17,12 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
-
+import com.bumptech.glide.Glide;
 import com.example.foodorderingapp.Domain.Cart;
 import com.example.foodorderingapp.Fragments.HomeFragment;
 import com.example.foodorderingapp.R;
 import com.example.foodorderingapp.databinding.ActivityHomeBinding;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -42,6 +45,7 @@ public class HomeActivity extends AppCompatActivity
         setContentView(binding.getRoot());
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         initUI();
+        loadUserInfoToHeader();
     }
 
     private void initUI() {
@@ -157,6 +161,42 @@ public class HomeActivity extends AppCompatActivity
         }
         binding.drawLayoutHome.close();
         return true;
+    }
+    private void loadUserInfoToHeader() {
+        // Get the header view from the NavigationView
+        View headerView = binding.navigationLeft.getHeaderView(0);
+
+        // Find the views inside the header layout
+        ShapeableImageView imgAvatar = headerView.findViewById(R.id.imgAvatarInNavigationBar);
+        TextView txtName = headerView.findViewById(R.id.txtNameInNavigationBar);
+        TextView txtGreeting = headerView.findViewById(R.id.txtHelloInNavigationBar);
+
+        // Load user data from Firebase
+        FirebaseDatabase.getInstance().getReference().child("Users").child(userId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            String name = snapshot.child("userName").getValue(String.class);
+                            String avatarUrl = snapshot.child("avatarURL").getValue(String.class);
+
+                            // Set the user's name and greeting
+                            txtName.setText("Hi, " + name);
+                            txtGreeting.setText("Have a good day!");
+
+                            // Load the avatar using Glide
+                            Glide.with(HomeActivity.this)
+                                    .load(avatarUrl)
+                                    .placeholder(R.drawable.user)  // Default avatar if URL is null
+                                    .into(imgAvatar);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(HomeActivity.this, "Failed to load user info", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

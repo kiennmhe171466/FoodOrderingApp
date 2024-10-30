@@ -105,6 +105,7 @@ public class FirebaseAddToCartHelper {
                     }
                 });
     }
+
     public void updateCart(Cart cart,CartInfo cartInfo,boolean isExistsProduct, final DataStatus dataStatus)
     {
         mReferenceCart.child("Carts").child(cart.getCartId()).setValue(cart).addOnSuccessListener(new OnSuccessListener<Void>() {

@@ -31,9 +31,6 @@ public class ProductDetailActivity extends AppCompatActivity {
     private String userName;
     private String userId;
     private String publisherId;
-    private int sold;
-    private String productType;
-    private int remainAmount;
     private int ratingAmount;
     private String state;
     private boolean own;
@@ -62,8 +59,11 @@ public class ProductDetailActivity extends AppCompatActivity {
         Glide.with(ProductDetailActivity.this)
                 .load(productImage)
                 .into(binding.productImg);
+
+        int num = Integer.parseInt(binding.numTxt.getText().toString());
+
         // load data cart
-        final boolean[] isCartExists = new boolean[1];
+        /*final boolean[] isCartExists = new boolean[1];
         final boolean[] isProductExists = new boolean[1];
         final Cart[] currentCart = {new Cart()};
         final CartInfo[] currentCartInfo = {new CartInfo()};
@@ -91,12 +91,12 @@ public class ProductDetailActivity extends AppCompatActivity {
             public void DataIsDeleted() {
 
             }
-        });
+        });*/
 
         binding.addToCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateCart(isCartExists[0],isProductExists[0],currentCart[0],currentCartInfo[0],1);
+                addToCart(num);
             }
         });
 
@@ -109,7 +109,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     //Function
-    private void updateCart(boolean isCartExists, boolean isProductExists, Cart currentCart, CartInfo currentCartInfo, int amount) {
+    /*private void updateCart(boolean isCartExists, boolean isProductExists, Cart currentCart, CartInfo currentCartInfo, int amount) {
         // Case when the user is new and does not have a cart yet
         if (!isCartExists) {
             Cart cart = new Cart();
@@ -197,7 +197,128 @@ public class ProductDetailActivity extends AppCompatActivity {
                 Toast.makeText(ProductDetailActivity.this, "This product has already been in the cart!", Toast.LENGTH_SHORT).show();
             }
         }
+    }*/
+
+    private void addToCart(int amount) {
+        FirebaseAddToCartHelper cartHelper = new FirebaseAddToCartHelper(userId, productId);
+        cartHelper.readCarts(new FirebaseAddToCartHelper.DataStatus() {
+            @Override
+            public void DataIsLoaded(Cart cart, CartInfo cartInfo, boolean isCartExists, boolean isProductExists) {
+                if (!isCartExists) {
+                    // No cart exists, create new cart and add product
+                    createNewCart(amount);
+                } else if (!isProductExists) {
+                    // Cart exists, but product is not in it
+                    addProductToExistingCart(cart, amount);
+                } else {
+                    // Product already in cart
+                    Toast.makeText(ProductDetailActivity.this, "This product is already in the cart!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void DataIsInserted() {
+                Toast.makeText(ProductDetailActivity.this, "Added to your cart!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void DataIsUpdated() {
+                Toast.makeText(ProductDetailActivity.this, "Cart updated successfully!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void DataIsDeleted() {
+                // Not used in addToCart flow
+            }
+        });
     }
+
+    private void createNewCart(int amount) {
+        Cart newCart = new Cart();
+        newCart.setUserId(userId);
+        newCart.setTotalAmount(amount);
+        newCart.setTotalPrice(productPrice * amount);
+
+        CartInfo newCartInfo = new CartInfo();
+        newCartInfo.setProductId(productId);
+        newCartInfo.setAmount(amount);
+
+        FirebaseAddToCartHelper cartHelper = new FirebaseAddToCartHelper();
+        cartHelper.addCarts(newCart, newCartInfo, new FirebaseAddToCartHelper.DataStatus() {
+            @Override
+            public void DataIsLoaded(Cart cart, CartInfo cartInfo, boolean isExistsCart, boolean isExistsProduct) {
+                // Not used here
+            }
+
+            @Override
+            public void DataIsInserted() {
+                Toast.makeText(ProductDetailActivity.this, "New cart created and product added!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void DataIsUpdated() {
+                // Not used here
+            }
+
+            @Override
+            public void DataIsDeleted() {
+                // Not used here
+            }
+        });
+    }
+
+    private void addProductToExistingCart(Cart existingCart, int amount) {
+        FirebaseDatabase.getInstance().getReference()
+                .child("Products")
+                .child(productId)
+                .child("remainAmount")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        int remainAmount = snapshot.getValue(int.class);
+                        if (amount <= remainAmount) {
+                            // Update cart information
+                            CartInfo newCartInfo = new CartInfo();
+                            newCartInfo.setProductId(productId);
+                            newCartInfo.setAmount(amount);
+
+                            existingCart.setTotalAmount(existingCart.getTotalAmount() + amount);
+                            existingCart.setTotalPrice(existingCart.getTotalPrice() + amount * productPrice);
+
+                            FirebaseAddToCartHelper cartHelper = new FirebaseAddToCartHelper();
+                            cartHelper.updateCart(existingCart, newCartInfo, false, new FirebaseAddToCartHelper.DataStatus() {
+                                @Override
+                                public void DataIsLoaded(Cart cart, CartInfo cartInfo, boolean isExistsCart, boolean isExistsProduct) {
+                                    // Not used here
+                                }
+
+                                @Override
+                                public void DataIsInserted() {
+                                    Toast.makeText(ProductDetailActivity.this, "Product added to cart!", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void DataIsUpdated() {
+                                    Toast.makeText(ProductDetailActivity.this, "Cart updated with new product!", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void DataIsDeleted() {
+                                    // Not used here
+                                }
+                            });
+                        } else {
+                            Toast.makeText(ProductDetailActivity.this, "Insufficient stock available.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(ProductDetailActivity.this, "Error retrieving product information", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
 
     public void AddQuantity(View view) {
         int num = Integer.parseInt(binding.numTxt.getText().toString());

@@ -50,8 +50,6 @@ public class CartActivity extends AppCompatActivity {
         userId = getIntent().getStringExtra("userId");
         initToolbar();
         initProceedOrderLauncher();
-
-        binding.cartView.setHasFixedSize(true);
         // setlayout for cartview (current recylerview)
         binding.cartView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -90,29 +88,17 @@ public class CartActivity extends AppCompatActivity {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Cart cart = ds.getValue(Cart.class);
                     if (cart.getUserId().equals(userId)) {
-                        cartProductAdapter = new CartProductAdapter(CartActivity.this, cartInfoList, cart.getCartId(), isCheckAll,userId);
+                        binding.txtTotalAmount.setText(String.format("%.2f$", cart.getTotalPrice()));
+                        cartProductAdapter = new CartProductAdapter(CartActivity.this, cartInfoList, cart.getCartId(),userId);
                         cartProductAdapter.setAdapterItemListener(new IAdapterItemListener() {
                             @Override
-                            public void onCheckedItemCountChanged(int count, long price, ArrayList<CartInfo> selectedItems) {
-                                binding.txtTotalAmount.setText("" + convertToMoney(price) + "đ");
-                                buyProducts = selectedItems;
-
-                                if (count > 0) {
-                                    binding.btnProceedOrder.setEnabled(true);
-                                }
-                                else {
-                                    binding.btnProceedOrder.setEnabled(false);
-                                }
+                            public void onAddClicked(double amount) {
+                                reloadTotal();
                             }
 
                             @Override
-                            public void onAddClicked() {
-                                reloadCartProducts();
-                            }
-
-                            @Override
-                            public void onSubtractClicked() {
-                                reloadCartProducts();
+                            public void onSubtractClicked(double amount) {
+                                reloadTotal();
                             }
 
                             @Override
@@ -148,7 +134,25 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
-    // reload cart products
+    // reload cart total
+    private void reloadTotal(){
+        FirebaseDatabase.getInstance().getReference().child("Carts").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    Cart cart = ds.getValue(Cart.class);
+                    if (cart.getUserId().equals(userId)) {
+                        binding.txtTotalAmount.setText(String.format("%.2f$", cart.getTotalPrice()));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
     // set return button
     private void initToolbar() {
@@ -168,6 +172,7 @@ public class CartActivity extends AppCompatActivity {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Cart cart = ds.getValue(Cart.class);
                     if (cart.getUserId().equals(userId)) {
+                        binding.txtTotalAmount.setText(String.format("%.2f$", cart.getTotalPrice()));
                         FirebaseDatabase.getInstance().getReference().child("CartInfos").child(cart.getCartId()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -202,27 +207,6 @@ public class CartActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    private String convertToMoney(double price) {
-        String temp = String.valueOf(price);
-        String output = "";
-        int count = 3;
-        for (int i = temp.length() - 1; i >= 0; i--) {
-            count--;
-            if (count == 0) {
-                count = 3;
-                output = "," + temp.charAt(i) + output;
-            }
-            else {
-                output = temp.charAt(i) + output;
-            }
-        }
-
-        if (output.charAt(0) == ',')
-            return output.substring(1);
-
-        return output;
     }
 
 }

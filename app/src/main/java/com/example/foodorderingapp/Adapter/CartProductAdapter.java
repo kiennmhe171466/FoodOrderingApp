@@ -40,16 +40,14 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
     private int checkedItemCount = 0;
     private long checkedItemPrice = 0;
     private IAdapterItemListener adapterItemListener;
-    private boolean isCheckAll;
     private String userId;
     private String userName;
     private ArrayList<CartInfo> selectedItems = new ArrayList<>();
 
-    public CartProductAdapter(Context mContext, List<CartInfo> mCartInfos, String cartId, boolean isCheckAll, String id) {
+    public CartProductAdapter(Context mContext, List<CartInfo> mCartInfos, String cartId, String id) {
         this.mContext = mContext;
         this.mCartInfos = mCartInfos;
         this.cartId = cartId;
-        this.isCheckAll = isCheckAll;
         this.userId = id;
         // viewBinderHelper.setOpenOnlyOne(true);
 
@@ -163,6 +161,8 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                                 dialog.dismiss(); // Close the dialog
                             }
                         });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
 
@@ -173,7 +173,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Product product = snapshot.getValue(Product.class);
                 holder.binding.productName.setText(product.getProductName());
-                holder.binding.productPrice.setText(convertToMoney(product.getProductPrice())+"đ");
+                holder.binding.productPrice.setText(product.getProductPrice().toString());
                 Glide.with(mContext).load(product.getProductImage()).placeholder(R.mipmap.ic_launcher).into(holder.binding.productImage);
                 holder.binding.productAmount.setText(String.valueOf(cartInfo.getAmount()));
             }
@@ -191,24 +191,33 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                 int amount = Integer.parseInt(holder.binding.productAmount.getText().toString());
                 amount++;
                 holder.binding.productAmount.setText(String.valueOf(amount));
-                if (adapterItemListener != null) {
-                    adapterItemListener.onCheckedItemCountChanged(0, 0, new ArrayList<>());
-                    adapterItemListener.onAddClicked();
-                }
                 FirebaseDatabase.getInstance().getReference().child("CartInfos").child(cartId).child(cartInfo.getCartInfoId()).child("amount").setValue(amount);
                 // update Cart
                 FirebaseDatabase.getInstance().getReference().child("Carts").child(cartId).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         Cart cart = snapshot.getValue(Cart.class);
-                        int totalAmount = cart.getTotalAmount() + 1;
-                        double pPrice = Double.parseDouble(holder.binding.productPrice.getText().toString());
-                        double totalPrice = cart.getTotalPrice() + pPrice;
+                        FirebaseDatabase.getInstance().getReference().child("Products").child(String.valueOf(cartInfo.getProductId())).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot1) {
+                                Product product = snapshot1.getValue(Product.class);
+                                int totalAmount = cart.getTotalAmount() + 1;
+                                double totalPrice = cart.getTotalPrice() + product.getProductPrice();
 
-                        HashMap<String, Object> map = new HashMap<>();
-                        map.put("totalAmount", totalAmount);
-                        map.put("totalPrice", totalPrice);
-                        FirebaseDatabase.getInstance().getReference().child("Carts").child(cartId).updateChildren(map);
+                                HashMap<String, Object> map = new HashMap<>();
+                                map.put("totalAmount", totalAmount);
+                                map.put("totalPrice", totalPrice);
+                                FirebaseDatabase.getInstance().getReference().child("Carts").child(cartId).updateChildren(map);
+                                if (adapterItemListener != null) {
+                                    adapterItemListener.onAddClicked(product.getProductPrice());
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
 
                     @Override
@@ -230,12 +239,8 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                     int amount = Integer.parseInt(holder.binding.productAmount.getText().toString());
                     amount--;
                     holder.binding.productAmount.setText(String.valueOf(amount));
-                    isCheckAll = false;
 
-                    if (adapterItemListener != null) {
-                        adapterItemListener.onCheckedItemCountChanged(0, 0, new ArrayList<>());
-                        adapterItemListener.onSubtractClicked();
-                    }
+
 
                     // Save to firebase
                     FirebaseDatabase.getInstance().getReference().child("CartInfos").child(cartId).child(cartInfo.getCartInfoId()).child("amount").setValue(amount);
@@ -255,6 +260,9 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                                     map.put("totalAmount", totalAmount);
                                     map.put("totalPrice", totalPrice);
                                     FirebaseDatabase.getInstance().getReference().child("Carts").child(cartId).updateChildren(map);
+                                    if (adapterItemListener != null) {
+                                        adapterItemListener.onAddClicked(product.getProductPrice());
+                                    }
                                 }
 
                                 @Override
@@ -262,19 +270,6 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
 
                                 }
                             });
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-
-                    FirebaseDatabase.getInstance().getReference().child("Products").child(String.valueOf(cartInfo.getProductId())).child("remainAmount").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            int remainAmount = snapshot.getValue(int.class) + 1;
-                            FirebaseDatabase.getInstance().getReference().child("Products").child(String.valueOf(cartInfo.getProductId())).child("remainAmount").setValue(remainAmount);
                         }
 
                         @Override
@@ -326,28 +321,6 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
 //                });
 //            }
 //        });
-
-    }
-
-    private String convertToMoney(double price) {
-        String temp = String.valueOf(price);
-        String output = "";
-        int count = 3;
-        for (int i = temp.length() - 1; i >= 0; i--) {
-            count--;
-            if (count == 0) {
-                count = 3;
-                output = "," + temp.charAt(i) + output;
-            }
-            else {
-                output = temp.charAt(i) + output;
-            }
-        }
-
-        if (output.charAt(0) == ',')
-            return output.substring(1);
-
-        return output;
 
     }
 

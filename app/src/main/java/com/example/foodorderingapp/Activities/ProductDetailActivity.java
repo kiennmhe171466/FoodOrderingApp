@@ -76,17 +76,14 @@ public class ProductDetailActivity extends AppCompatActivity {
                 currentCart[0] = cart;
                 currentCartInfo[0] = cartInfo;
             }
-
             @Override
             public void DataIsInserted() {
 
             }
-
             @Override
             public void DataIsUpdated() {
 
             }
-
             @Override
             public void DataIsDeleted() {
 
@@ -108,9 +105,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
     }
 
-    //Function
     private void updateCart(boolean isCartExists, boolean isProductExists, Cart currentCart, CartInfo currentCartInfo, int amount) {
-        // Case when the user is new and does not have a cart yet
         if (!isCartExists) {
             Cart cart = new Cart();
             cart.setTotalPrice(productPrice * amount);
@@ -126,24 +121,19 @@ public class ProductDetailActivity extends AppCompatActivity {
                 public void DataIsLoaded(Cart cart, CartInfo cartInfo, boolean isExistsCart, boolean isExistsProduct) {
                     // No action needed here for this case
                 }
-
                 @Override
                 public void DataIsInserted() {
                     Toast.makeText(ProductDetailActivity.this, "Added to your favourite list", Toast.LENGTH_SHORT).show();
                 }
-
                 @Override
                 public void DataIsUpdated() {
-                    // No action needed here for this case
                 }
-
                 @Override
                 public void DataIsDeleted() {
-                    // No action needed here for this case
                 }
             });
         } else {
-            // Case when the cart exists but does not include the current product
+           
             if (!isProductExists) {
                 FirebaseDatabase.getInstance().getReference()
                         .child("Products")
@@ -171,12 +161,10 @@ public class ProductDetailActivity extends AppCompatActivity {
                                         public void DataIsInserted() {
                                             Toast.makeText(ProductDetailActivity.this, "Added to your cart", Toast.LENGTH_SHORT).show();
                                         }
-
                                         @Override
                                         public void DataIsUpdated() {
                                             // No action needed here for this case
                                         }
-
                                         @Override
                                         public void DataIsDeleted() {
                                             // No action needed here for this case
@@ -186,14 +174,12 @@ public class ProductDetailActivity extends AppCompatActivity {
                                     Toast.makeText(ProductDetailActivity.this, "Insufficient stock available", Toast.LENGTH_SHORT).show();
                                 }
                             }
-
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
                                 Toast.makeText(ProductDetailActivity.this, "Error retrieving product information", Toast.LENGTH_SHORT).show();
                             }
                         });
             } else {
-                // Case when the product is already in the cart
                 Toast.makeText(ProductDetailActivity.this, "This product has already been in the cart!", Toast.LENGTH_SHORT).show();
             }
         }

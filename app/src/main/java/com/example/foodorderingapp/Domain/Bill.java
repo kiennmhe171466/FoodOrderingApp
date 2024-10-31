@@ -7,7 +7,6 @@ public class Bill implements Serializable {
     private String billId;
     private String orderDate;
     private String orderStatus;
-
     private boolean checkAllComment;
     private String recipientId;
     private String senderId;

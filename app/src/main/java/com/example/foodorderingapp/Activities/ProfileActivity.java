@@ -40,7 +40,6 @@ public class ProfileActivity extends AppCompatActivity {
     private String userId;
     private Uri imageUri;
     private String originalAvatarUrl;  
-
     private static final int PICK_IMAGE_REQUEST = 1;
 
     @Override
@@ -126,10 +125,8 @@ public class ProfileActivity extends AppCompatActivity {
         EditText editUserDob = dialogView.findViewById(R.id.edit_user_dob);
         Button saveButton = dialogView.findViewById(R.id.save_button);
 
-        // Load the current avatar
         Glide.with(this).load(originalAvatarUrl).into(editUserAvatar);
 
-        // Set the fields with current user information
         editUserName.setText(binding.userName.getText());
         editUserEmail.setText(binding.userEmail.getText());
         editUserEmail.setEnabled(false);  // Make email read-only

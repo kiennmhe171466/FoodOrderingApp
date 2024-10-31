@@ -12,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.foodorderingapp.Domain.Cart;
 import com.example.foodorderingapp.Domain.CartInfo;
-import com.example.foodorderingapp.Domain.CurrencyFormatter;
-import com.example.foodorderingapp.Domain.Food;
 import com.example.foodorderingapp.Helpers.FirebaseAddToCartHelper;
 import com.example.foodorderingapp.R;
 import com.example.foodorderingapp.databinding.ActivityProductDetailBinding;
@@ -24,7 +22,6 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ProductDetailActivity extends AppCompatActivity {
     private ActivityProductDetailBinding binding;
-    private Food object;
     private String productId;
     private String productName;
     private int productPrice;
@@ -66,7 +63,6 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         // set up default value
         binding.titleTxt.setText(productName);
-        binding.priceTxt.setText(CurrencyFormatter.getFormatter().format(Double.valueOf(productPrice)));
         binding.descriptionTxt.setText(productDescription);
         Glide.with(ProductDetailActivity.this)
                 .load(productImage)

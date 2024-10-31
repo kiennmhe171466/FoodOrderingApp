@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodorderingapp.Activities.Order.OrderActivity;
-import com.example.foodorderingapp.Domain.Bill;
+import com.example.foodorderingapp.Domain.Order;
 import com.example.foodorderingapp.databinding.FragmentHistoryOrderBinding;
 
 import java.util.ArrayList;
@@ -20,11 +20,11 @@ import java.util.ArrayList;
 
 public class HistoryOrderFragment extends Fragment {
     private FragmentHistoryOrderBinding binding;
-    private ArrayList<Bill> dsBill;
+    private ArrayList<Order> dsOrder;
     private String userId;
 
-    public HistoryOrderFragment(ArrayList<Bill> ds, String id) {
-        dsBill = ds;
+    public HistoryOrderFragment(ArrayList<Order> ds, String id) {
+        dsOrder = ds;
         userId = id;
     }
 
@@ -33,7 +33,7 @@ public class HistoryOrderFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentHistoryOrderBinding.inflate(inflater,container,false);
 
-        OrderAdapter adapter=new OrderAdapter(getContext(),dsBill, OrderActivity.HISTORY_ORDER,userId);
+        OrderAdapter adapter=new OrderAdapter(getContext(), dsOrder, OrderActivity.HISTORY_ORDER,userId);
         binding.ryc.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false));
         binding.ryc.setAdapter(adapter);
 

@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.foodorderingapp.Domain.BillInfo;
+import com.example.foodorderingapp.Domain.OrderInfo;
 import com.example.foodorderingapp.Domain.Product;
 import com.example.foodorderingapp.R;
 import com.example.foodorderingapp.databinding.ItemBillinfoBinding;
@@ -23,9 +23,9 @@ import java.util.Locale;
 
 public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.ViewHolder> {
     Context context;
-    ArrayList<BillInfo> ds;
+    ArrayList<OrderInfo> ds;
 
-    public OrderDetailAdapter(Context context, ArrayList<BillInfo> ds) {
+    public OrderDetailAdapter(Context context, ArrayList<OrderInfo> ds) {
         this.context = context;
         this.ds = ds;
     }
@@ -38,8 +38,8 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        BillInfo billInfo = ds.get(position);
-        FirebaseDatabase.getInstance().getReference("Products").child(billInfo.getProductId()).addListenerForSingleValueEvent(
+        OrderInfo orderInfo = ds.get(position);
+        FirebaseDatabase.getInstance().getReference("Products").child(orderInfo.getProductId()).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -47,7 +47,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
                         if (tmp != null) {
                             holder.binding.txtName.setText(tmp.getProductName());
                             double productPrice = parsePrice(String.valueOf(tmp.getProductPrice()));
-                            holder.binding.txtPrice.setText(formatCurrency(productPrice * billInfo.getAmount()));
+                            holder.binding.txtPrice.setText(formatCurrency(productPrice * orderInfo.getAmount()));
                             Glide.with(context)
                                     .load(tmp.getProductImage())
                                     .placeholder(R.drawable.default_image)
@@ -61,7 +61,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
                     }
                 }
         );
-        holder.binding.txtCount.setText("Count: " + billInfo.getAmount());
+        holder.binding.txtCount.setText("Count: " + orderInfo.getAmount());
     }
 
     @Override

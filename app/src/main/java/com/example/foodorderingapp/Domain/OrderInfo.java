@@ -2,16 +2,16 @@ package com.example.foodorderingapp.Domain;
 
 import java.io.Serializable;
 
-public class BillInfo implements Serializable {
+public class OrderInfo implements Serializable {
     private int amount;
     private String billInfoId;
     private String productId;
     private boolean check;
 
-    public BillInfo() {
+    public OrderInfo() {
     }
 
-    public BillInfo(int amount, String billInfoId, String productId, boolean check) {
+    public OrderInfo(int amount, String billInfoId, String productId, boolean check) {
         this.amount = amount;
         this.billInfoId = billInfoId;
         this.productId = productId;

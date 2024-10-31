@@ -5,16 +5,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.foodorderingapp.Domain.Bill;
+import com.example.foodorderingapp.Domain.Order;
 
 import java.util.ArrayList;
 
 public class OrderViewPaperAdapter extends FragmentStateAdapter {
-    private ArrayList<Bill> dsCurrentOrder;
-    private ArrayList <Bill> dsHistoryOrder;
+    private ArrayList<Order> dsCurrentOrder;
+    private ArrayList <Order> dsHistoryOrder;
     private String userId;
 
-    public OrderViewPaperAdapter(@NonNull FragmentActivity fragmentActivity, ArrayList<Bill> dsCurrentOrder, ArrayList <Bill> dsHistoryOrder,String id) {
+    public OrderViewPaperAdapter(@NonNull FragmentActivity fragmentActivity, ArrayList<Order> dsCurrentOrder, ArrayList <Order> dsHistoryOrder, String id) {
         super(fragmentActivity);
         this.dsCurrentOrder=dsCurrentOrder;
         this.dsHistoryOrder=dsHistoryOrder;

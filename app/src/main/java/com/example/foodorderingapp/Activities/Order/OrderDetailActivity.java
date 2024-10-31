@@ -10,11 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.foodorderingapp.Activities.Feedback.FeedBackActivity;
 import com.example.foodorderingapp.Order.OrderDetailAdapter;
-import com.example.foodorderingapp.Domain.Bill;
-import com.example.foodorderingapp.Domain.BillInfo;
-import com.example.foodorderingapp.Domain.Notification;
+import com.example.foodorderingapp.Domain.Order;
+import com.example.foodorderingapp.Domain.OrderInfo;
 import com.example.foodorderingapp.R;
 import com.example.foodorderingapp.databinding.ActivityOrderDetailBinding;
 import com.google.firebase.database.DataSnapshot;
@@ -28,8 +26,8 @@ import java.util.Iterator;
 public class OrderDetailActivity extends AppCompatActivity {
     private ActivityOrderDetailBinding binding;
 
-    private ArrayList<BillInfo> dsBillInfo = new ArrayList<>();
-    private Bill currentBill;
+    private ArrayList<OrderInfo> dsOrderInfo = new ArrayList<>();
+    private Order currentOrder;
     private String userId;
 
     @Override
@@ -44,18 +42,18 @@ public class OrderDetailActivity extends AppCompatActivity {
         // Get Intent
         Intent intent = getIntent();
         // Initialize data
-        currentBill = (Bill) intent.getSerializableExtra("Bill");
+        currentOrder = (Order) intent.getSerializableExtra("Order");
         userId = intent.getStringExtra("userId");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        dsBillInfo.clear();
-        FirebaseDatabase.getInstance().getReference("Bills").child(currentBill.getBillId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        dsOrderInfo.clear();
+        FirebaseDatabase.getInstance().getReference("Bills").child(currentOrder.getBillId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                currentBill = snapshot.getValue(Bill.class);
+                currentOrder = snapshot.getValue(Order.class);
                 initData();
             }
 
@@ -67,12 +65,12 @@ public class OrderDetailActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        FirebaseDatabase.getInstance().getReference("BillInfos").child(currentBill.getBillId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("BillInfos").child(currentOrder.getBillId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot item : snapshot.getChildren()) {
-                    BillInfo tmp = item.getValue(BillInfo.class);
-                    dsBillInfo.add(tmp);
+                    OrderInfo tmp = item.getValue(OrderInfo.class);
+                    dsOrderInfo.add(tmp);
                 }
                 // Update UI after data is retrieved
                 initUI();
@@ -86,7 +84,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     }
 
     private void initUI() {
-        String status = currentBill.getOrderStatus();
+        String status = currentOrder.getOrderStatus();
         if (status.equalsIgnoreCase("Completed")) {
             binding.lnOderDetail.btn.setVisibility(View.VISIBLE);
             binding.imgStatus.setImageResource(R.drawable.line_status_completed);
@@ -96,16 +94,16 @@ public class OrderDetailActivity extends AppCompatActivity {
             binding.imgStatus.setImageResource(R.drawable.line_status_confirmed);
         }
 
-        OrderDetailAdapter adapter = new OrderDetailAdapter(this, dsBillInfo);
+        OrderDetailAdapter adapter = new OrderDetailAdapter(this, dsOrderInfo);
         binding.lnOderDetail.ryc.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         binding.lnOderDetail.ryc.setAdapter(adapter);
         binding.lnOderDetail.ryc.setHasFixedSize(true);
-        binding.lnOderDetail.txtTotalPrice.setText(convertToMoney(currentBill.getTotalPrice()) + "đ");
-        binding.txtId.setText(currentBill.getBillId());
+        binding.lnOderDetail.txtTotalPrice.setText(convertToMoney(currentOrder.getTotalPrice()) + "đ");
+        binding.txtId.setText(currentOrder.getBillId());
         binding.imgBack.setOnClickListener(view -> finish());
 
         // If all BillInfos have been feedbacked, disable feedback button
-        if (currentBill.isCheckAllComment()) {
+        if (currentOrder.isCheckAllComment()) {
             binding.lnOderDetail.btn.setEnabled(false);
             binding.lnOderDetail.btn.setBackgroundResource(R.drawable.background_feedback_disnable_button);
         } else {
@@ -113,22 +111,14 @@ public class OrderDetailActivity extends AppCompatActivity {
             binding.lnOderDetail.btn.setBackgroundResource(R.drawable.background_feedback_enable_button);
         }
 
-        // Set click event for feedback button
-        binding.lnOderDetail.btn.setOnClickListener(view -> {
-            filterItemChecked();
-            Intent intent = new Intent(OrderDetailActivity.this, FeedBackActivity.class);
-            intent.putExtra("Current Bill", currentBill);
-            intent.putExtra("List of billInfo", dsBillInfo);
-            intent.putExtra("userId", userId);
-            startActivity(intent);
-        });
+
     }
 
     private void filterItemChecked() {
-        Iterator<BillInfo> iterator = dsBillInfo.iterator();
+        Iterator<OrderInfo> iterator = dsOrderInfo.iterator();
         while (iterator.hasNext()) {
-            BillInfo billInfo = iterator.next();
-            if (billInfo.isCheck()) {
+            OrderInfo orderInfo = iterator.next();
+            if (orderInfo.isCheck()) {
                 iterator.remove();
             }
         }

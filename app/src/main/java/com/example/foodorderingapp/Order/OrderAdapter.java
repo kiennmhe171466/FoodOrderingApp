@@ -14,8 +14,8 @@ import com.bumptech.glide.Glide;
 import com.example.foodorderingapp.Activities.Order.OrderActivity;
 import com.example.foodorderingapp.Activities.Order.OrderDetailActivity;
 import com.example.foodorderingapp.Helpers.FirebaseStatusOrderHelper;
-import com.example.foodorderingapp.Domain.Bill;
-import com.example.foodorderingapp.Domain.BillInfo;
+import com.example.foodorderingapp.Domain.Order;
+import com.example.foodorderingapp.Domain.OrderInfo;
 import com.example.foodorderingapp.R;
 import com.example.foodorderingapp.databinding.ItemOrderLayoutBinding;
 import com.google.firebase.database.DataSnapshot;
@@ -28,11 +28,11 @@ import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
     private Context context;
-    private ArrayList<Bill> dsOrder;
+    private ArrayList<Order> dsOrder;
     private int type;
     private String userId;
 
-    public OrderAdapter(Context context, ArrayList<Bill> dsOrder, int type, String id) {
+    public OrderAdapter(Context context, ArrayList<Order> dsOrder, int type, String id) {
         this.context = context;
         this.dsOrder = dsOrder;
         this.type = type;
@@ -47,7 +47,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Bill tmp = dsOrder.get(position);
+        Order tmp = dsOrder.get(position);
         holder.binding.txtId.setText(tmp.getBillId() + "");
         holder.binding.txtDate.setText(tmp.getOrderDate() + "");
         holder.binding.txtStatus.setText(tmp.getOrderStatus());
@@ -60,7 +60,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
                     // Confirm order status update directly
                     new FirebaseStatusOrderHelper().setShippingToCompleted(tmp.getBillId(), new FirebaseStatusOrderHelper.DataStatus() {
                         @Override
-                        public void DataIsLoaded(List<Bill> bills, boolean isExistingBill) {
+                        public void DataIsLoaded(List<Order> orders, boolean isExistingBill) {
                         }
 
                         @Override
@@ -92,7 +92,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, OrderDetailActivity.class);
-                    intent.putExtra("Bill", tmp);
+                    intent.putExtra("Order", tmp);
                     intent.putExtra("userId", userId);
                     context.startActivity(intent);
                 }
@@ -103,7 +103,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, OrderDetailActivity.class);
-                intent.putExtra("Bill", tmp);
+                intent.putExtra("Order", tmp);
                 intent.putExtra("userId", userId);
                 context.startActivity(intent);
             }
@@ -112,9 +112,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         FirebaseDatabase.getInstance().getReference("BillInfos").child(tmp.getBillId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                BillInfo tmp = new BillInfo();
+                OrderInfo tmp = new OrderInfo();
                 for (DataSnapshot item : snapshot.getChildren()) {
-                    tmp = item.getValue(BillInfo.class);
+                    tmp = item.getValue(OrderInfo.class);
                     break;
                 }
                 FirebaseDatabase.getInstance().getReference("Products").child(tmp.getProductId()).child("productImage1").addListenerForSingleValueEvent(new ValueEventListener() {

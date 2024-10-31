@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.foodorderingapp.Order.OrderViewPaperAdapter;
-import com.example.foodorderingapp.Domain.Bill;
+import com.example.foodorderingapp.Domain.Order;
 import com.example.foodorderingapp.databinding.ActivityOrderBinding;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.database.DataSnapshot;
@@ -23,8 +23,8 @@ public class OrderActivity extends AppCompatActivity {
     private ActivityOrderBinding binding;
     public static final int CURRENT_ORDER = 10001;
     public static final int HISTORY_ORDER = 10002;
-    private ArrayList<Bill> dsCurrentOrder=new ArrayList<>();
-    private ArrayList<Bill> dsHistoryOrder=new ArrayList<>();
+    private ArrayList<Order> dsCurrentOrder=new ArrayList<>();
+    private ArrayList<Order> dsHistoryOrder=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class OrderActivity extends AppCompatActivity {
                 dsCurrentOrder.clear();
                 dsHistoryOrder.clear();
                 for (DataSnapshot item:snapshot.getChildren()) {
-                    Bill tmp=item.getValue(Bill.class);
+                    Order tmp=item.getValue(Order.class);
                     if (tmp.getRecipientId().equalsIgnoreCase(userId)) {
                         //Dòng dưới là test sản phẩm
                         if (!tmp.getOrderStatus().equalsIgnoreCase("Completed")) {

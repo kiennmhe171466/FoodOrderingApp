@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodorderingapp.Activities.Order.OrderActivity;
-import com.example.foodorderingapp.Domain.Bill;
+import com.example.foodorderingapp.Domain.Order;
 import com.example.foodorderingapp.databinding.FragmentCurrentOrderBinding;
 
 import java.util.ArrayList;
@@ -20,11 +20,11 @@ import java.util.ArrayList;
 
 public class CurrentOrderFragment extends Fragment {
     private FragmentCurrentOrderBinding binding;
-    private ArrayList<Bill> dsBill;
+    private ArrayList<Order> dsOrder;
     private String userId;
 
-    public CurrentOrderFragment(ArrayList<Bill> ds,String id) {
-        dsBill = ds;
+    public CurrentOrderFragment(ArrayList<Order> ds, String id) {
+        dsOrder = ds;
         userId = id;
     }
 
@@ -33,7 +33,7 @@ public class CurrentOrderFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentCurrentOrderBinding.inflate(inflater,container,false);
 
-        OrderAdapter adapter=new OrderAdapter(getContext(), dsBill, OrderActivity.CURRENT_ORDER, userId);
+        OrderAdapter adapter=new OrderAdapter(getContext(), dsOrder, OrderActivity.CURRENT_ORDER, userId);
         binding.ryc.setAdapter(adapter);
         binding.ryc.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false));
 

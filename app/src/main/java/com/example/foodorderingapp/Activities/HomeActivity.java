@@ -17,8 +17,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
-
-
+import com.example.foodorderingapp.Activities.Cart.CartActivity;
+import com.example.foodorderingapp.Activities.Cart.EmptyCartActivity;
 import com.example.foodorderingapp.Activities.Order.OrderActivity;
 import com.example.foodorderingapp.Model.Cart;
 
@@ -95,15 +95,15 @@ public class HomeActivity extends AppCompatActivity
                                                 .addListenerForSingleValueEvent(new ValueEventListener() {
                                                     @Override
                                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                                        if (snapshot.getChildrenCount() == 0) {
-//                                                            // Navigate to EmptyCartActivity if cart is empty
-//                                                            startActivity(new Intent(HomeActivity.this, EmptyCartActivity.class));
-//                                                        } else {
-//                                                            // Navigate to CartActivity if cart has items
-//                                                            Intent intent = new Intent(HomeActivity.this, CartActivity.class);
-//                                                            intent.putExtra("userId", userId);
-//                                                            startActivity(intent);
-//                                                        }
+                                                        if (snapshot.getChildrenCount() == 0) {
+                                                            // Navigate to EmptyCartActivity if cart is empty
+                                                            startActivity(new Intent(HomeActivity.this, EmptyCartActivity.class));
+                                                        } else {
+                                                            // Navigate to CartActivity if cart has items
+                                                            Intent intent = new Intent(HomeActivity.this, CartActivity.class);
+                                                            intent.putExtra("userId", userId);
+                                                            startActivity(intent);
+                                                        }
                                                     }
 
                                                     @Override

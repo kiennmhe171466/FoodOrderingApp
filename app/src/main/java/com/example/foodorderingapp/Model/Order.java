@@ -1,20 +1,19 @@
-package com.example.foodorderingapp.Domain;
+package com.example.foodorderingapp.Model;
 
 import java.io.Serializable;
 
-public class Bill implements Serializable {
+public class Order implements Serializable {
     private String addressId;
     private String billId;
     private String orderDate;
     private String orderStatus;
-
     private boolean checkAllComment;
     private String recipientId;
     private String senderId;
     private long totalPrice;
     private String imageUrl;
 
-    public Bill(String addressId, String billId, String orderDate, String orderStatus, boolean checkAllComment, String recipientId, String senderId, long totalPrice, String imageUrl) {
+    public Order(String addressId, String billId, String orderDate, String orderStatus, boolean checkAllComment, String recipientId, String senderId, long totalPrice, String imageUrl) {
         this.addressId = addressId;
         this.billId = billId;
         this.orderDate = orderDate;
@@ -26,7 +25,7 @@ public class Bill implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public Bill() {
+    public Order() {
     }
 
     public String getAddressId() {

@@ -12,39 +12,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.example.foodorderingapp.Activities.ProductDetailActivity;
-import com.example.foodorderingapp.Domain.Product;
+import com.example.foodorderingapp.Model.Product;
 import com.example.foodorderingapp.databinding.ItemFoodHomeBinding;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class FoodItemAdapter extends RecyclerView.Adapter {
-    private final NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+    private final NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("en", "us"));
     private final ArrayList<Product> ds;
-    private final String userId;
     private String userName;
     private final Context mContext;
 
-    public FoodItemAdapter(ArrayList<Product> ds, String id, Context context) {
+    public FoodItemAdapter(ArrayList<Product> ds, Context context) {
         mContext = context;
         this.ds = ds;
-        userId = id;
-        FirebaseDatabase.getInstance().getReference().child("Users").child(userId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                userName = snapshot.child("userName").getValue(String.class);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
     }
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -70,13 +54,8 @@ public class FoodItemAdapter extends RecyclerView.Adapter {
                 intent.putExtra("productImage", item.getProductImage());
                 intent.putExtra("ratingStar", item.getRatingStar());
                 intent.putExtra("productDescription", item.getDescription());
-                //intent.putExtra("publisherId", item.getPublisherId());
-                //intent.putExtra("sold", item.getSold());
-                //intent.putExtra("productType", item.getProductType());
-                //intent.putExtra("remainAmount", item.getRemainAmount());
                 intent.putExtra("ratingAmount", item.getRatingAmount());
                 intent.putExtra("state", item.getState());
-                intent.putExtra("userId", userId);
                 intent.putExtra("userName", userName);
                 mContext.startActivity(intent);
             }

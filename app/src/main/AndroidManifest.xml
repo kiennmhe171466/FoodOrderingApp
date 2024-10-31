@@ -18,9 +18,13 @@
         <activity
             android:name=".Activities.HomeActivity"
             android:exported="false" />
+        <activity android:name=".Activities.FindActivity" />
         <activity android:name=".Activities.LoginActivity" />
         <activity android:name=".Activities.ProfileActivity" />
         <activity android:name=".Activities.ChangePasswordActivity" />
+        <activity android:name=".Activities.ForgotPasswordActivity" />
+        <activity android:name=".Activities.Order.OrderActivity" />
+        <activity android:name=".Activities.Order.OrderDetailActivity" />
         <activity
             android:name=".Activities.IntroActivity"
             android:exported="true">

@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.foodorderingapp.Adapter.FoodItemAdapter;
-import com.example.foodorderingapp.Domain.Product;
+import com.example.foodorderingapp.Model.Product;
 import com.example.foodorderingapp.databinding.FragmentFoodHomeBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,10 +24,8 @@ public class FoodListFragment extends Fragment {
     private FragmentFoodHomeBinding binding;
     private ArrayList<Product> foodList;
     private FoodItemAdapter adapter;
-    private String userId;
 
-    public FoodListFragment(String id) {
-        userId = id;
+    public FoodListFragment() {
     }
 
     @Nullable
@@ -47,7 +45,7 @@ public class FoodListFragment extends Fragment {
         );
         binding.rycFoodHome.setLayoutManager(gridLayoutManager);
 
-        adapter = new FoodItemAdapter(foodList, userId, getContext());
+        adapter = new FoodItemAdapter(foodList, getContext());
         binding.rycFoodHome.setAdapter(adapter);
         binding.rycFoodHome.setHasFixedSize(true);
     }

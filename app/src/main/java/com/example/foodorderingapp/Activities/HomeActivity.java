@@ -16,7 +16,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 
-import com.example.foodorderingapp.Domain.Cart;
+import com.example.foodorderingapp.Activities.Order.OrderActivity;
+import com.example.foodorderingapp.Model.Cart;
 import com.example.foodorderingapp.Fragments.HomeFragment;
 import com.example.foodorderingapp.R;
 import com.example.foodorderingapp.databinding.ActivityHomeBinding;
@@ -33,7 +34,6 @@ public class HomeActivity extends AppCompatActivity
     private ActivityHomeBinding binding;
     private LinearLayout layoutMain;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +43,6 @@ public class HomeActivity extends AppCompatActivity
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         initUI();
     }
-
     private void initUI() {
         getWindow().setStatusBarColor(Color.parseColor("#E8584D"));
         getWindow().setNavigationBarColor(Color.parseColor("#E8584D"));
@@ -53,7 +52,7 @@ public class HomeActivity extends AppCompatActivity
         layoutMain = binding.layoutMain;
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(layoutMain.getId(), new HomeFragment(userId))
+                .replace(layoutMain.getId(), new HomeFragment())
                 .commit();
         binding.navigationLeft.setNavigationItemSelectedListener(this);
     }
@@ -100,7 +99,6 @@ public class HomeActivity extends AppCompatActivity
 
                                                     @Override
                                                     public void onCancelled(@NonNull DatabaseError error) {
-                                                        // Handle possible errors
                                                         Toast.makeText(HomeActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                                                     }
                                                 });
@@ -110,8 +108,6 @@ public class HomeActivity extends AppCompatActivity
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-                                // Handle possible errors
-                                Toast.makeText(HomeActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                 return true;
@@ -163,7 +159,6 @@ public class HomeActivity extends AppCompatActivity
         if (item.getItemId() == android.R.id.home) {
             binding.drawLayoutHome.openDrawer(GravityCompat.START);
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

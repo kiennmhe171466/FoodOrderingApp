@@ -6,19 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.foodorderingapp.Domain.Cart;
-import com.example.foodorderingapp.Domain.CartInfo;
 
 import com.example.foodorderingapp.Helpers.FirebaseAddToCartHelper;
 import com.example.foodorderingapp.databinding.ActivityProductDetailBinding;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class ProductDetailActivity extends AppCompatActivity {
     private ActivityProductDetailBinding binding;
@@ -35,6 +29,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private String state;
     private boolean own;
     private Notification notification;
+    private FirebaseAddToCartHelper cartHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,49 +49,46 @@ public class ProductDetailActivity extends AppCompatActivity {
 
 
         binding.titleTxt.setText(productName);
-        binding.priceTxt.setText(String.valueOf("VND " + productPrice));
+        binding.priceTxt.setText(String.valueOf("$ " + productPrice));
         binding.descriptionTxt.setText(productDescription);
         Glide.with(ProductDetailActivity.this)
                 .load(productImage)
                 .into(binding.productImg);
 
-        int num = Integer.parseInt(binding.numTxt.getText().toString());
 
         // load data cart
-        final boolean[] isCartExists = new boolean[1];
+        /*final boolean[] isCartExists = new boolean[1];
         final boolean[] isProductExists = new boolean[1];
         final Cart[] currentCart = {new Cart()};
-        final CartInfo[] currentCartInfo = {new CartInfo()};
-        new FirebaseAddToCartHelper(userId,productId).readCarts(new FirebaseAddToCartHelper.DataStatus() {
+        final CartInfo[] currentCartInfo = {new CartInfo()};*/
+        cartHelper = new FirebaseAddToCartHelper();
 
-            @Override
-            public void DataIsLoaded(Cart cart,CartInfo cartInfo, boolean isExistsCart, boolean isExistsProduct) {
-                isCartExists[0] = isExistsCart;
-                isProductExists[0] = isExistsProduct;
-                currentCart[0] = cart;
-                currentCartInfo[0] = cartInfo;
-            }
-
-            @Override
-            public void DataIsInserted() {
-
-            }
-
-            @Override
-            public void DataIsUpdated() {
-
-            }
-
-            @Override
-            public void DataIsDeleted() {
-
-            }
-        });
 
         binding.addToCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addToCart(num);
+                int num = Integer.parseInt(binding.numTxt.getText().toString());
+                if (num == 0) {
+                    Toast.makeText(ProductDetailActivity.this, "You must choose a quantity", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                // Create a new cart item (replace with actual data)
+                Cart newCart = new Cart(null, num,  num * productPrice, userId); // Example values
+
+                // Call the addCart method
+                cartHelper.addCart(newCart, new FirebaseAddToCartHelper.OnCartAddedListener(){
+                    @Override
+                    public void onCartAdded(String cartId) {
+                        // Show success message
+                        Toast.makeText(ProductDetailActivity.this, productName + " added to your cart", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onCartAddFailed(Exception e) {
+                        // Show error message
+                        Toast.makeText(ProductDetailActivity.this, "Failed to add cart: ", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
@@ -109,7 +101,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     //Function
-    private void addToCart(int amount) {
+    /*private void addToCart(int amount) {
         FirebaseAddToCartHelper cartHelper = new FirebaseAddToCartHelper(userId, productId);
         cartHelper.readCarts(new FirebaseAddToCartHelper.DataStatus() {
             @Override
@@ -179,7 +171,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private void addProductToExistingCart(Cart existingCart, int amount) {
         FirebaseDatabase.getInstance().getReference()
-                .child("Products")
+                .child("Product")
                 .child(productId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -222,7 +214,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                         Toast.makeText(ProductDetailActivity.this, "Error retrieving product information", Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
+    }*/
 
 
     public void AddQuantity(View view) {
@@ -233,7 +225,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         if(num > 10){
             Toast.makeText(ProductDetailActivity.this, "Your max quantity of order is 10", Toast.LENGTH_SHORT).show();
             binding.numTxt.setText(String.valueOf(10));
-            binding.totalPriceTxt.setText(String.valueOf(10 * productPrice));
+            binding.totalPriceTxt.setText(String.valueOf(10 * productPrice + " USD"));
         }
     }
 
@@ -242,7 +234,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         if (num > 0) {
             num--;
             binding.numTxt.setText(String.valueOf(num));
-            binding.totalPriceTxt.setText(String.valueOf(num * productPrice));
+            binding.totalPriceTxt.setText(String.valueOf(num * productPrice + " USD"));
         }else{
             Toast.makeText(ProductDetailActivity.this, "Your quantity is currently 0", Toast.LENGTH_SHORT).show();
         }

@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class FoodItemAdapter extends RecyclerView.Adapter {
-    private final NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+    private final NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("en", "us"));
     private final ArrayList<Product> ds;
     private final String userId;
     private String userName;

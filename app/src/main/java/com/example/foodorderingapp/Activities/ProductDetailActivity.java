@@ -75,17 +75,17 @@ public class ProductDetailActivity extends AppCompatActivity {
                 }
                 // Create a new cart item (replace with actual data)
                 Cart newCart = new Cart(null, num,  num * productPrice, userId); // Example values
-
+                CartInfo newCartInfo = new CartInfo(num, null, productId);
                 // Call the addCart method
-                cartHelper.addCart(newCart, new FirebaseAddToCartHelper.OnCartAddedListener(){
+                cartHelper.addToCart(userId, newCartInfo, new FirebaseAddToCartHelper.OnCartActionListener(){
                     @Override
-                    public void onCartAdded(String cartId) {
+                    public void onCartUpdated(String cartId) {
                         // Show success message
                         Toast.makeText(ProductDetailActivity.this, productName + " added to your cart", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onCartAddFailed(Exception e) {
+                    public void onCartActionFailed(Exception e) {
                         // Show error message
                         Toast.makeText(ProductDetailActivity.this, "Failed to add cart: ", Toast.LENGTH_SHORT).show();
                     }

@@ -15,30 +15,80 @@ public class FirebaseAddToCartHelper {
     private DatabaseReference databaseReference;
 
     public FirebaseAddToCartHelper() {
-        // Initialize Firebase Realtime Database reference
         databaseReference = FirebaseDatabase.getInstance().getReference("Carts");
     }
 
-    // Method to add a new cart for a user
-    public void addCart(Cart cart, OnCartAddedListener listener) {
-        // Generate a unique key for the cart
-        String cartId = databaseReference.push().getKey();
-        cart.setCartId(cartId); // Set the generated cart ID
+    // Method to add item to user's cart
+    public void addToCart(String userId, CartInfo cartInfo, OnCartActionListener listener) {
+        // Query to find if the user's cart already exists
+        databaseReference.orderByChild("userId").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // User cart exists; update existing cart with new CartInfo
+                    for (DataSnapshot cartSnapshot : dataSnapshot.getChildren()) {
+                        Cart existingCart = cartSnapshot.getValue(Cart.class);
+                        String cartId = cartSnapshot.getKey();
+                        addCartInfoToExistingCart(cartId, cartInfo, listener);
+                        break;
+                    }
+                } else {
+                    // No existing cart; create a new one
+                    String newCartId = databaseReference.push().getKey();
+                    Cart newCart = new Cart(newCartId, cartInfo.getAmount(), 0.0, userId);
+                    databaseReference.child(newCartId).setValue(newCart)
+                            .addOnSuccessListener(aVoid -> addCartInfoToExistingCart(newCartId, cartInfo, listener))
+                            .addOnFailureListener(listener::onCartActionFailed);
+                }
+            }
 
-        // Add the cart to Firebase Realtime Database
-        databaseReference.child(cartId).setValue(cart)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        listener.onCartAdded(cartId);
-                    } else {
-                        listener.onCartAddFailed(task.getException());
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.onCartActionFailed(databaseError.toException());
+            }
+        });
+    }
+
+    // Helper method to add CartInfo to an existing cart
+    private void addCartInfoToExistingCart(String cartId, CartInfo cartInfo, OnCartActionListener listener) {
+        DatabaseReference cartInfoRef = databaseReference.child(cartId).child("cartInfos");
+
+        // Check if the product already exists in CartInfo for this cart
+        cartInfoRef.orderByChild("productId").equalTo(cartInfo.getProductId())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            // Product with the same productId exists; update the quantity
+                            for (DataSnapshot cartInfoSnapshot : dataSnapshot.getChildren()) {
+                                CartInfo existingCartInfo = cartInfoSnapshot.getValue(CartInfo.class);
+                                int updatedAmount = existingCartInfo.getAmount() + cartInfo.getAmount();
+                                cartInfoSnapshot.getRef().child("amount").setValue(updatedAmount)
+                                        .addOnSuccessListener(aVoid -> listener.onCartUpdated(cartId))
+                                        .addOnFailureListener(listener::onCartActionFailed);
+                                break;
+                            }
+                        } else {
+                            // Product does not exist; add new CartInfo
+                            DatabaseReference newCartInfoRef = cartInfoRef.push();
+                            cartInfo.setCartInfoId(newCartInfoRef.getKey());
+
+                            newCartInfoRef.setValue(cartInfo)
+                                    .addOnSuccessListener(aVoid -> listener.onCartUpdated(cartId))
+                                    .addOnFailureListener(listener::onCartActionFailed);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        listener.onCartActionFailed(databaseError.toException());
                     }
                 });
     }
 
-    // Listener interface for cart addition result
-    public interface OnCartAddedListener {
-        void onCartAdded(String cartId);
-        void onCartAddFailed(Exception e);
+    // Listener interface for handling cart actions
+    public interface OnCartActionListener {
+        void onCartUpdated(String cartId);
+        void onCartActionFailed(Exception e);
     }
 }

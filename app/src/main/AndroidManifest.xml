@@ -15,6 +15,7 @@
         <activity
             android:name=".Activities.HomeActivity"
             android:exported="false" />
+        <activity android:name=".Activities.FindActivity" />
         <activity android:name=".Activities.LoginActivity" />
         <activity android:name=".Activities.ProfileActivity" />
         <activity android:name=".Activities.ChangePasswordActivity" />

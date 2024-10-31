@@ -1,4 +1,4 @@
-package com.example.foodorderingapp.Order;
+package com.example.foodorderingapp.Adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -6,6 +6,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.foodorderingapp.Domain.Order;
+import com.example.foodorderingapp.Fragments.CurrentOrderFragment;
+import com.example.foodorderingapp.Fragments.HistoryOrderFragment;
 
 import java.util.ArrayList;
 

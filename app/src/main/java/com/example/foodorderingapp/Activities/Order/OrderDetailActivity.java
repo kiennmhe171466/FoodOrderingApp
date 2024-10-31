@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.foodorderingapp.Order.OrderDetailAdapter;
+import com.example.foodorderingapp.Adapter.OrderDetailAdapter;
 import com.example.foodorderingapp.Domain.Order;
 import com.example.foodorderingapp.Domain.OrderInfo;
 import com.example.foodorderingapp.R;

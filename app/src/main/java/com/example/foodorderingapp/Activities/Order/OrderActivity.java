@@ -7,7 +7,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.foodorderingapp.Order.OrderViewPaperAdapter;
+import com.example.foodorderingapp.Adapter.OrderViewPaperAdapter;
 import com.example.foodorderingapp.Domain.Order;
 import com.example.foodorderingapp.databinding.ActivityOrderBinding;
 import com.google.android.material.tabs.TabLayoutMediator;

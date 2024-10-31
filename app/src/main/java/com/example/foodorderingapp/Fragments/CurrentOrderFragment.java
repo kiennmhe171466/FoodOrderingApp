@@ -1,4 +1,4 @@
-package com.example.foodorderingapp.Order;
+package com.example.foodorderingapp.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodorderingapp.Activities.Order.OrderActivity;
 import com.example.foodorderingapp.Domain.Order;
+import com.example.foodorderingapp.Adapter.OrderAdapter;
 import com.example.foodorderingapp.databinding.FragmentCurrentOrderBinding;
 
 import java.util.ArrayList;

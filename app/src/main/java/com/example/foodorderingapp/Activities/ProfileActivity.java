@@ -19,8 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.foodorderingapp.Activities.Order.OrderActivity;
 import com.example.foodorderingapp.Helpers.FirebaseUserInfoHelper;
-import com.example.foodorderingapp.Domain.User;
+import com.example.foodorderingapp.Model.User;
 import com.example.foodorderingapp.R;
 import com.example.foodorderingapp.databinding.ActivityProfileBinding;
 import com.google.firebase.database.DataSnapshot;
@@ -215,7 +216,7 @@ public class ProfileActivity extends AppCompatActivity {
         User user = new User(
                 userId,
                 binding.userEmail.getText().toString(),
-                originalAvatarUrl,  // Use the original avatar URL
+                originalAvatarUrl,
                 editUserName.getText().toString(),
                 editUserDob.getText().toString(),
                 editUserPhone.getText().toString()

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodorderingapp.Activities.Order.OrderActivity;
-import com.example.foodorderingapp.Domain.Order;
+import com.example.foodorderingapp.Model.Order;
 import com.example.foodorderingapp.Adapter.OrderAdapter;
 import com.example.foodorderingapp.databinding.FragmentCurrentOrderBinding;
 

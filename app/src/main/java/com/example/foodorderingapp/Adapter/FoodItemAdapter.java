@@ -12,12 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.example.foodorderingapp.Activities.ProductDetailActivity;
-import com.example.foodorderingapp.Domain.Product;
+import com.example.foodorderingapp.Model.Product;
 import com.example.foodorderingapp.databinding.ItemFoodHomeBinding;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;

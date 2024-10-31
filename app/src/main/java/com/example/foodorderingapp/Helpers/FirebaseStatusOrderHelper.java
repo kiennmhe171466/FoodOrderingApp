@@ -2,8 +2,8 @@ package com.example.foodorderingapp.Helpers;
 
 import androidx.annotation.NonNull;
 
-import com.example.foodorderingapp.Domain.Order;
-import com.example.foodorderingapp.Domain.OrderInfo;
+import com.example.foodorderingapp.Model.Order;
+import com.example.foodorderingapp.Model.OrderInfo;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

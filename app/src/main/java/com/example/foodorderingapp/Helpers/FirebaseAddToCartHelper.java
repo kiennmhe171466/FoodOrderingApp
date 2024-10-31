@@ -2,8 +2,8 @@ package com.example.foodorderingapp.Helpers;
 
 import androidx.annotation.NonNull;
 
-import com.example.foodorderingapp.Domain.Cart;
-import com.example.foodorderingapp.Domain.CartInfo;
+import com.example.foodorderingapp.Model.Cart;
+import com.example.foodorderingapp.Model.CartInfo;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,17 +19,14 @@ public class FirebaseAddToCartHelper {
 
     public interface DataStatus {
         void DataIsLoaded(Cart cart, CartInfo cartInfo, boolean isExistsCart, boolean isExistsProduct);
-
         void DataIsInserted();
-
         void DataIsUpdated();
-
         void DataIsDeleted();
     }
 
-    public FirebaseAddToCartHelper(String user, String product) {
-        userId = user;
-        productId = product;
+    public FirebaseAddToCartHelper(String userId, String productId) {
+        this.userId = userId;
+        this.productId = productId;
         mDatabase = FirebaseDatabase.getInstance();
         mReferenceCart = mDatabase.getReference();
     }
@@ -64,15 +61,12 @@ public class FirebaseAddToCartHelper {
                         }
                     }
                 }
-
                 if (dataStatus != null) {
                     dataStatus.DataIsLoaded(cart, cartInfo, isExistsCart, isExistsProduct);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }

@@ -16,7 +16,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 
-import com.example.foodorderingapp.Domain.Cart;
+import com.example.foodorderingapp.Activities.Order.OrderActivity;
+import com.example.foodorderingapp.Model.Cart;
 import com.example.foodorderingapp.Fragments.HomeFragment;
 import com.example.foodorderingapp.R;
 import com.example.foodorderingapp.databinding.ActivityHomeBinding;

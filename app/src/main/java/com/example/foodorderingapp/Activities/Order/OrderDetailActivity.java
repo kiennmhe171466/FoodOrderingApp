@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodorderingapp.Adapter.OrderDetailAdapter;
-import com.example.foodorderingapp.Domain.Order;
-import com.example.foodorderingapp.Domain.OrderInfo;
+import com.example.foodorderingapp.Model.Order;
+import com.example.foodorderingapp.Model.OrderInfo;
 import com.example.foodorderingapp.R;
 import com.example.foodorderingapp.databinding.ActivityOrderDetailBinding;
 import com.google.firebase.database.DataSnapshot;

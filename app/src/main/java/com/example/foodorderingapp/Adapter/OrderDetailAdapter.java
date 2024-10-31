@@ -8,8 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.foodorderingapp.Domain.OrderInfo;
-import com.example.foodorderingapp.Domain.Product;
+import com.example.foodorderingapp.Model.OrderInfo;
+import com.example.foodorderingapp.Model.Product;
 import com.example.foodorderingapp.R;
 import com.example.foodorderingapp.databinding.ItemBillinfoBinding;
 import com.google.firebase.database.DataSnapshot;

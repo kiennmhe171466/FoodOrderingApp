@@ -4,8 +4,8 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import com.example.foodorderingapp.Domain.Notification;
-import com.example.foodorderingapp.Domain.User;
+import com.example.foodorderingapp.Model.Notification;
+import com.example.foodorderingapp.Model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

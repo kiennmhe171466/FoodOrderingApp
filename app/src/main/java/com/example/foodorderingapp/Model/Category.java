@@ -1,4 +1,4 @@
-package com.example.foodorderingapp.Domain;
+package com.example.foodorderingapp.Model;
 
 public class Category {
 

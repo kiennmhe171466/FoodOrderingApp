@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.foodorderingapp.Adapter.FoodItemAdapter;
-import com.example.foodorderingapp.Domain.Product;
+import com.example.foodorderingapp.Model.Product;
 import com.example.foodorderingapp.databinding.FragmentFoodHomeBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

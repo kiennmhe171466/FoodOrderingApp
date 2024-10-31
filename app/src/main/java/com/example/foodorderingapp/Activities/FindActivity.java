@@ -2,7 +2,6 @@ package com.example.foodorderingapp.Activities;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -16,7 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.example.foodorderingapp.Domain.Product;
+import com.example.foodorderingapp.Model.Product;
 
 import java.util.ArrayList;
 

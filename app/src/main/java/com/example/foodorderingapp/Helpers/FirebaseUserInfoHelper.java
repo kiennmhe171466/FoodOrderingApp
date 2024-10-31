@@ -5,7 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.foodorderingapp.Domain.User;
+import com.example.foodorderingapp.Model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,6 +16,8 @@ public class FirebaseUserInfoHelper {
     private Context mContext;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReference;
+
+
     public interface DataStatus{
         void DataIsLoaded(User user);
         void DataIsInserted();
@@ -34,21 +36,4 @@ public class FirebaseUserInfoHelper {
                 .addOnFailureListener(e -> Log.e("Firebase", "Failed to update user", e));
     }
 
-    public void readUserInfo(String userId, final DataStatus dataStatus)
-    {
-        mReference.child("Users").child(userId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                if (dataStatus != null) {
-                    dataStatus.DataIsLoaded(user);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
 }

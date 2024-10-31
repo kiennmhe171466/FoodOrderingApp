@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.example.foodorderingapp.Domain.Cart;
-import com.example.foodorderingapp.Domain.CartInfo;
+import com.example.foodorderingapp.Model.Cart;
+import com.example.foodorderingapp.Model.CartInfo;
 
 import com.example.foodorderingapp.Helpers.FirebaseAddToCartHelper;
 import com.example.foodorderingapp.databinding.ActivityProductDetailBinding;

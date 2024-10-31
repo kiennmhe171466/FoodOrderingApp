@@ -17,10 +17,13 @@ public class FirebaseAddToCartHelper {
     private String userId;
     private String productId;
 
-    public interface DataStatus{
+    public interface DataStatus {
         void DataIsLoaded(Cart cart, CartInfo cartInfo, boolean isExistsCart, boolean isExistsProduct);
+
         void DataIsInserted();
+
         void DataIsUpdated();
+
         void DataIsDeleted();
     }
 
@@ -37,8 +40,7 @@ public class FirebaseAddToCartHelper {
     }
 
 
-    public void readCarts(final DataStatus dataStatus)
-    {
+    public void readCarts(final DataStatus dataStatus) {
         mReferenceCart.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -46,21 +48,16 @@ public class FirebaseAddToCartHelper {
                 boolean isExistsProduct = false;
                 Cart cart = new Cart();
                 CartInfo cartInfo = new CartInfo();
-                for (DataSnapshot keyNode: snapshot.child("Carts").getChildren())
-                {
-                    if (keyNode.child("userId").getValue(String.class).equals(userId))
-                    {
+                for (DataSnapshot keyNode : snapshot.child("Carts").getChildren()) {
+                    if (keyNode.child("userId").getValue(String.class).equals(userId)) {
                         isExistsCart = true;
                         cart = keyNode.getValue(Cart.class);
                         break;
                     }
                 }
-                if (isExistsCart)
-                {
-                    for (DataSnapshot keyNode: snapshot.child("CartInfos").child(cart.getCartId()).getChildren())
-                    {
-                        if (keyNode.child("productId").getValue(String.class).equals(productId))
-                        {
+                if (isExistsCart) {
+                    for (DataSnapshot keyNode : snapshot.child("CartInfos").child(cart.getCartId()).getChildren()) {
+                        if (keyNode.child("productId").getValue(String.class).equals(productId)) {
                             isExistsProduct = true;
                             cartInfo = keyNode.getValue(CartInfo.class);
                             break;
@@ -69,7 +66,7 @@ public class FirebaseAddToCartHelper {
                 }
 
                 if (dataStatus != null) {
-                    dataStatus.DataIsLoaded(cart,cartInfo,isExistsCart,isExistsProduct);
+                    dataStatus.DataIsLoaded(cart, cartInfo, isExistsCart, isExistsProduct);
                 }
             }
 
@@ -80,8 +77,7 @@ public class FirebaseAddToCartHelper {
         });
     }
 
-    public void addCarts(Cart cart,CartInfo cartInfo, final DataStatus dataStatus)
-    {
+    public void addCarts(Cart cart, CartInfo cartInfo, final DataStatus dataStatus) {
         String key = mReferenceCart.child("Carts").push().getKey();
         cart.setCartId(key);
         mReferenceCart.child("Carts").child(key).setValue(cart)
@@ -105,8 +101,8 @@ public class FirebaseAddToCartHelper {
                     }
                 });
     }
-    public void updateCart(Cart cart,CartInfo cartInfo,boolean isExistsProduct, final DataStatus dataStatus)
-    {
+
+    public void updateCart(Cart cart, CartInfo cartInfo, boolean isExistsProduct, final DataStatus dataStatus) {
         mReferenceCart.child("Carts").child(cart.getCartId()).setValue(cart).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
@@ -115,8 +111,7 @@ public class FirebaseAddToCartHelper {
                 }
             }
         });
-        if (isExistsProduct)
-        {
+        if (isExistsProduct) {
             mReferenceCart.child("CartInfos").child(cart.getCartId()).child(cartInfo.getCartInfoId()).setValue(cartInfo)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -126,8 +121,7 @@ public class FirebaseAddToCartHelper {
                             }
                         }
                     });
-        }
-        else {
+        } else {
             String key = mReferenceCart.child("CartInfos").child(cart.getCartId()).push().getKey();
             cartInfo.setCartInfoId(key);
             mReferenceCart.child("CartInfos").child(cart.getCartId()).child(key).setValue(cartInfo)
@@ -138,7 +132,6 @@ public class FirebaseAddToCartHelper {
                                 dataStatus.DataIsInserted();
                             }
 
-                            // Update remainAmount in Products of productId
                             FirebaseDatabase.getInstance().getReference().child("Products").child(cartInfo.getProductId()).child("remainAmount").addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {

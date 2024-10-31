@@ -1,4 +1,4 @@
-package com.example.foodorderingapp.Activities.Home;
+package com.example.foodorderingapp.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;

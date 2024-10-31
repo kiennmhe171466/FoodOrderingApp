@@ -1,4 +1,4 @@
-package com.example.foodorderingapp.Fragments.Home;
+package com.example.foodorderingapp.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,12 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.foodorderingapp.Adapter.Home.CategoryItemAdapter;
-import com.example.foodorderingapp.Adapter.Home.FoodItemAdapter;
+import com.example.foodorderingapp.Adapter.CategoryItemAdapter;
 import com.example.foodorderingapp.Domain.Category;
-import com.example.foodorderingapp.Domain.Product;
 import com.example.foodorderingapp.databinding.FragmentCategoryHomeBinding;
-import com.example.foodorderingapp.databinding.FragmentFoodHomeBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;

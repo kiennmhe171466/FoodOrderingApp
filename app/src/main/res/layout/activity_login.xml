@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activities.Home.LoginActivity"
+    tools:context=".Activities.LoginActivity"
     android:background="#EDEDED">
 
     <LinearLayout
@@ -17,10 +17,10 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="306dp"
-            android:layout_height="189dp"
+            android:layout_width="344dp"
+            android:layout_height="202dp"
             android:layout_gravity="center"
-            android:background="@drawable/bkg" />
+            android:background="@drawable/logo_kfc" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tablayoutHome"

@@ -1,6 +1,5 @@
-package com.example.foodorderingapp.Fragments.Home;
+package com.example.foodorderingapp.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.foodorderingapp.Adapter.Home.FoodAdapter;
-import com.example.foodorderingapp.Adapter.Home.FoodItemAdapter;
+import com.example.foodorderingapp.Adapter.FoodItemAdapter;
 import com.example.foodorderingapp.Domain.Product;
 import com.example.foodorderingapp.databinding.FragmentFoodHomeBinding;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,10 +24,8 @@ public class FoodListFragment extends Fragment {
     private FragmentFoodHomeBinding binding;
     private ArrayList<Product> foodList;
     private FoodItemAdapter adapter;
-    private String userId;
 
-    public FoodListFragment(String id) {
-        userId = id;
+    public FoodListFragment() {
     }
 
     @Nullable
@@ -51,7 +45,7 @@ public class FoodListFragment extends Fragment {
         );
         binding.rycFoodHome.setLayoutManager(gridLayoutManager);
 
-        adapter = new FoodItemAdapter(foodList, userId, getContext());
+        adapter = new FoodItemAdapter(foodList, getContext());
         binding.rycFoodHome.setAdapter(adapter);
         binding.rycFoodHome.setHasFixedSize(true);
     }

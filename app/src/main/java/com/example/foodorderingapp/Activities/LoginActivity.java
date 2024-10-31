@@ -1,18 +1,13 @@
-package com.example.foodorderingapp.Activities.Home;
+package com.example.foodorderingapp.Activities;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.foodorderingapp.Adapter.Home.LoginSignUpAdapter;
-import com.example.foodorderingapp.R;
+import com.example.foodorderingapp.Adapter.LoginSignUpAdapter;
 import com.example.foodorderingapp.databinding.ActivityLoginBinding;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -58,6 +53,8 @@ public class LoginActivity extends AppCompatActivity {
                 super.onPageScrollStateChanged(state);
             }
         });
+
+
     }
     @Override
     protected void onStart() {

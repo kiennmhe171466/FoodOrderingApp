@@ -3,7 +3,7 @@ package com.example.foodorderingapp.Domain;
 public class Cart {
     private String cartId;
     private int totalAmount;
-    private int totalPrice;
+    private double totalPrice;
     private String userId;
 
     public Cart(String cartId, int totalAmount, int totalPrice, String userId) {
@@ -32,11 +32,11 @@ public class Cart {
         this.totalAmount = totalAmount;
     }
 
-    public int getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(int totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 

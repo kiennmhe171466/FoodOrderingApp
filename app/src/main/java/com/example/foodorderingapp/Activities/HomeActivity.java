@@ -1,55 +1,37 @@
-package com.example.foodorderingapp.Activities.Home;
+package com.example.foodorderingapp.Activities;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.example.foodorderingapp.Activities.Order.OrderActivity;
 import com.example.foodorderingapp.Domain.Cart;
-import com.example.foodorderingapp.Fragments.Home.HomeFragment;
+import com.example.foodorderingapp.Fragments.HomeFragment;
 import com.example.foodorderingapp.R;
 import com.example.foodorderingapp.databinding.ActivityHomeBinding;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.example.foodorderingapp.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private String userId;
     private ActivityHomeBinding binding;
     private LinearLayout layoutMain;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +42,6 @@ public class HomeActivity extends AppCompatActivity
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         initUI();
     }
-
     private void initUI() {
         getWindow().setStatusBarColor(Color.parseColor("#E8584D"));
         getWindow().setNavigationBarColor(Color.parseColor("#E8584D"));
@@ -70,7 +51,7 @@ public class HomeActivity extends AppCompatActivity
         layoutMain = binding.layoutMain;
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(layoutMain.getId(), new HomeFragment(userId))
+                .replace(layoutMain.getId(), new HomeFragment())
                 .commit();
         binding.navigationLeft.setNavigationItemSelectedListener(this);
     }
@@ -117,7 +98,6 @@ public class HomeActivity extends AppCompatActivity
 
                                                     @Override
                                                     public void onCancelled(@NonNull DatabaseError error) {
-                                                        // Handle possible errors
                                                         Toast.makeText(HomeActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                                                     }
                                                 });
@@ -127,8 +107,6 @@ public class HomeActivity extends AppCompatActivity
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-                                // Handle possible errors
-                                Toast.makeText(HomeActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                 return true;
@@ -147,6 +125,9 @@ public class HomeActivity extends AppCompatActivity
             Intent intent1 = new Intent(this, OrderActivity.class);
             intent1.putExtra("userId", userId);
             startActivity(intent1);
+        }else if (item.getItemId() == R.id.chwg_pwd) {
+
+            startActivity(new Intent(this, ChangePasswordActivity.class));
         } else if (item.getItemId() == R.id.logoutMenu) {
             new AlertDialog.Builder(HomeActivity.this)
                     .setTitle("Logout")
@@ -177,7 +158,6 @@ public class HomeActivity extends AppCompatActivity
         if (item.getItemId() == android.R.id.home) {
             binding.drawLayoutHome.openDrawer(GravityCompat.START);
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

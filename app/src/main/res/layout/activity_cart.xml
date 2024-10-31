@@ -16,7 +16,7 @@
         android:padding="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/arrow" />
+        android:src="@drawable/arrow" />
 
     <ScrollView
         android:layout_width="match_parent"

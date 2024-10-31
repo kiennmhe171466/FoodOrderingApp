@@ -13,10 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.foodorderingapp.Domain.Cart;
-import com.example.foodorderingapp.Domain.CartInfo;
-import com.example.foodorderingapp.Domain.Product;
-import com.example.foodorderingapp.Domain.User;
+import com.example.foodorderingapp.Model.Cart;
+import com.example.foodorderingapp.Model.CartInfo;
+import com.example.foodorderingapp.Model.Product;
+import com.example.foodorderingapp.Model.User;
 import com.example.foodorderingapp.Helpers.FirebaseUserInfoHelper;
 import com.example.foodorderingapp.Interfaces.IAdapterItemListener;
 import com.example.foodorderingapp.R;
@@ -129,7 +129,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                 Cart cart = snapshot.getValue(Cart.class);
                                                 FirebaseDatabase.getInstance().getReference().child("Products")
-                                                        .child(cartInfo.getProductId())
+                                                        .child(String.valueOf(cartInfo.getProductId()))
                                                         .addListenerForSingleValueEvent(new ValueEventListener() {
                                                             @Override
                                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -168,7 +168,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
 
         // Bind image, Bind name, Bind price for product (only once)
         //
-        FirebaseDatabase.getInstance().getReference().child("Products").child(cartInfo.getProductId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("Products").child(String.valueOf(cartInfo.getProductId())).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Product product = snapshot.getValue(Product.class);
@@ -244,7 +244,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             Cart cart = snapshot.getValue(Cart.class);
-                            FirebaseDatabase.getInstance().getReference().child("Products").child(cartInfo.getProductId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            FirebaseDatabase.getInstance().getReference().child("Products").child(String.valueOf(cartInfo.getProductId())).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot1) {
                                     Product product = snapshot1.getValue(Product.class);
@@ -270,11 +270,11 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                         }
                     });
 
-                    FirebaseDatabase.getInstance().getReference().child("Products").child(cartInfo.getProductId()).child("remainAmount").addListenerForSingleValueEvent(new ValueEventListener() {
+                    FirebaseDatabase.getInstance().getReference().child("Products").child(String.valueOf(cartInfo.getProductId())).child("remainAmount").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             int remainAmount = snapshot.getValue(int.class) + 1;
-                            FirebaseDatabase.getInstance().getReference().child("Products").child(cartInfo.getProductId()).child("remainAmount").setValue(remainAmount);
+                            FirebaseDatabase.getInstance().getReference().child("Products").child(String.valueOf(cartInfo.getProductId())).child("remainAmount").setValue(remainAmount);
                         }
 
                         @Override

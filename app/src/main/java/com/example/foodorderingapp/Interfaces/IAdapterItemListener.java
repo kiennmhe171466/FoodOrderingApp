@@ -1,6 +1,6 @@
 package com.example.foodorderingapp.Interfaces;
 
-import com.example.foodorderingapp.Domain.CartInfo;
+import com.example.foodorderingapp.Model.CartInfo;
 
 import java.util.ArrayList;
 

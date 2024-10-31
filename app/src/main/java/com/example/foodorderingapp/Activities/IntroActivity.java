@@ -1,36 +1,29 @@
 package com.example.foodorderingapp.Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.foodorderingapp.Adapter.ViewPagerAdapter;
 import com.example.foodorderingapp.databinding.ActivityIntroBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class IntroActivity extends AppCompatActivity {
-    ActivityIntroBinding binding;
+    private ActivityIntroBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityIntroBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        setVariable();
-    }
 
-    private void setVariable() {
-        binding.nextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle login button click
-                Intent intent = new Intent(IntroActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
+        // Set up ViewPager with adapter
+        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
+        binding.viewPager.setAdapter(adapter);
 
-        FirebaseAuth.getInstance().signOut();
+        // Connect DotsIndicator with ViewPager2
+        binding.dotsIndicator.setViewPager2(binding.viewPager);
 
+        FirebaseAuth.getInstance().signOut();  // Sign out if needed
     }
 }

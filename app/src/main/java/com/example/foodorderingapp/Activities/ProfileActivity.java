@@ -84,7 +84,6 @@ public class ProfileActivity extends AppCompatActivity {
                     .into(binding.userAvatar);
         }
     }
-
     private void getUserInfo(Context mContext) {
         FirebaseDatabase.getInstance().getReference().child("Users").child(userId)
                 .addValueEventListener(new ValueEventListener() {

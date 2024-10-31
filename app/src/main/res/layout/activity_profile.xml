@@ -82,29 +82,29 @@
                 android:id="@+id/user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/user_avatar_container"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
+                android:layout_toEndOf="@id/user_avatar_container"
                 android:ellipsize="end"
+                android:fontFamily="sans-serif-light"
                 android:lines="1"
                 android:maxLines="1"
-                android:text="Ngo Minh Kien"
+                android:text="null"
                 android:textSize="28sp"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif-light" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/user_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/user_name"
-                android:layout_toEndOf="@id/user_avatar_container"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
+                android:layout_toEndOf="@id/user_avatar_container"
                 android:ellipsize="end"
                 android:lines="1"
                 android:maxLines="1"
-                android:text="kiennmhe1714666@fpt.edu.vn"
+                android:text="null"
                 android:textSize="16sp"
                 android:textStyle="italic" />
 
@@ -113,13 +113,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/user_email"
-                android:layout_toEndOf="@id/user_avatar_container"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
+                android:layout_toEndOf="@id/user_avatar_container"
                 android:ellipsize="end"
                 android:lines="1"
                 android:maxLines="1"
-                android:text="0984381766"
+                android:text="null"
                 android:textColor="#717171"
                 android:textSize="15sp" />
 
@@ -129,13 +129,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/user_phone_number"
-                android:layout_toEndOf="@id/user_avatar_container"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
+                android:layout_toEndOf="@id/user_avatar_container"
                 android:ellipsize="end"
                 android:lines="1"
                 android:maxLines="1"
-                android:text="01/01/1990"
+                android:text="null"
                 android:textColor="#717171"
                 android:textSize="15sp" />
         </RelativeLayout>

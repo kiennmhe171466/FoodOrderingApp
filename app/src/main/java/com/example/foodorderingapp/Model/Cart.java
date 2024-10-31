@@ -6,7 +6,7 @@ public class Cart {
     private double totalPrice;
     private String userId;
 
-    public Cart(String cartId, int totalAmount, int totalPrice, String userId) {
+    public Cart(String cartId, int totalAmount, double totalPrice, String userId) {
         this.cartId = cartId;
         this.totalAmount = totalAmount;
         this.totalPrice = totalPrice;

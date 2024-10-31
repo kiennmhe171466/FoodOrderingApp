@@ -5,9 +5,9 @@ import java.io.Serializable;
 public class CartInfo implements Serializable {
     private int amount;
     private String cartInfoId;
-    private String productId;
+    private int productId;
 
-    public CartInfo(int amount, String cartInfoId, String productId) {
+    public CartInfo(int amount, String cartInfoId, int productId) {
         this.amount = amount;
         this.cartInfoId = cartInfoId;
         this.productId = productId;
@@ -32,11 +32,11 @@ public class CartInfo implements Serializable {
         this.cartInfoId = cartInfoId;
     }
 
-    public String getProductId() {
+    public int getProductId() {
         return productId;
     }
 
-    public void setProductId(String productId) {
+    public void setProductId(int productId) {
         this.productId = productId;
     }
 }

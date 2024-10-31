@@ -2,6 +2,7 @@ package com.example.foodorderingapp.Helpers;
 
 import androidx.annotation.NonNull;
 
+
 import com.example.foodorderingapp.Model.Cart;
 import com.example.foodorderingapp.Model.CartInfo;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -12,33 +13,128 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseAddToCartHelper {
-    private DatabaseReference databaseReference;
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mReferenceCart;
+    private String userId;
+    private int productId;
 
-    public FirebaseAddToCartHelper() {
-        // Initialize Firebase Realtime Database reference
-        databaseReference = FirebaseDatabase.getInstance().getReference("Carts");
+    public interface DataStatus {
+        void DataIsLoaded(Cart cart, CartInfo cartInfo, boolean isExistsCart, boolean isExistsProduct);
+
+        void DataIsInserted();
+
+        void DataIsUpdated();
+
+        void DataIsDeleted();
     }
 
-    // Method to add a new cart for a user
-    public void addCart(Cart cart, OnCartAddedListener listener) {
-        // Generate a unique key for the cart
-        String cartId = databaseReference.push().getKey();
-        cart.setCartId(cartId); // Set the generated cart ID
+    public FirebaseAddToCartHelper(String userId, int productId) {
+        this.userId = userId;
+        this.productId = productId;
+        mDatabase = FirebaseDatabase.getInstance();
+        mReferenceCart = mDatabase.getReference();
+    }
 
-        // Add the cart to Firebase Realtime Database
-        databaseReference.child(cartId).setValue(cart)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        listener.onCartAdded(cartId);
-                    } else {
-                        listener.onCartAddFailed(task.getException());
+    public FirebaseAddToCartHelper() {
+        mDatabase = FirebaseDatabase.getInstance();
+        mReferenceCart = mDatabase.getReference();
+    }
+
+    public void readCarts(final DataStatus dataStatus) {
+        mReferenceCart.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean isExistsCart = false;
+                boolean isExistsProduct = false;
+                Cart cart = new Cart();
+                CartInfo cartInfo = new CartInfo();
+                for (DataSnapshot keyNode : snapshot.child("Carts").getChildren()) {
+                    String fetchedUserId = keyNode.child("userId").getValue(String.class);
+                    if (fetchedUserId != null && fetchedUserId.equals(userId)) {
+                        isExistsCart = true;
+                        cart = keyNode.getValue(Cart.class);
+                        break;
+                    }
+                }
+                if (isExistsCart) {
+                    for (DataSnapshot keyNode : snapshot.child("CartInfos").child(cart.getCartId()).getChildren()) {
+                        long fetchedProductId = (Long)keyNode.child("productId").getValue();
+                        if (fetchedProductId >= 0 && fetchedProductId == productId) {
+                            isExistsProduct = true;;
+                            cartInfo = keyNode.getValue(CartInfo.class);
+                            break;
+                        }
+                    }
+                }
+                if (dataStatus != null) {
+                    dataStatus.DataIsLoaded(cart, cartInfo, isExistsCart, isExistsProduct);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+
+    public void addCarts(Cart cart, CartInfo cartInfo, final DataStatus dataStatus) {
+        String key = mReferenceCart.child("Carts").push().getKey();
+        cart.setCartId(key);
+        mReferenceCart.child("Carts").child(key).setValue(cart)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        if (dataStatus != null) {
+                            dataStatus.DataIsInserted();
+                        }
+                    }
+                });
+        String keyInfo = mReferenceCart.child("CartInfos").child(cart.getCartId()).push().getKey();
+        cartInfo.setCartInfoId(keyInfo);
+        mReferenceCart.child("CartInfos").child(cart.getCartId()).child(keyInfo).setValue(cartInfo)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        if (dataStatus != null) {
+                            dataStatus.DataIsInserted();
+                        }
                     }
                 });
     }
 
-    // Listener interface for cart addition result
-    public interface OnCartAddedListener {
-        void onCartAdded(String cartId);
-        void onCartAddFailed(Exception e);
+    public void updateCart(Cart cart, CartInfo cartInfo, boolean isExistsProduct, final DataStatus dataStatus) {
+        mReferenceCart.child("Carts").child(cart.getCartId()).setValue(cart).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                if (dataStatus != null) {
+                    dataStatus.DataIsUpdated();
+                }
+            }
+        });
+        if (isExistsProduct) {
+            mReferenceCart.child("CartInfos").child(cart.getCartId()).child(cartInfo.getCartInfoId()).setValue(cartInfo)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            if (dataStatus != null) {
+                                dataStatus.DataIsUpdated();
+                            }
+                        }
+                    });
+        } else {
+            String key = mReferenceCart.child("CartInfos").child(cart.getCartId()).push().getKey();
+            cartInfo.setCartInfoId(key);
+            mReferenceCart.child("CartInfos").child(cart.getCartId()).child(key).setValue(cartInfo)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            if (dataStatus != null) {
+                                dataStatus.DataIsInserted();
+                            }
+
+                        }
+                    });
+        }
     }
 }

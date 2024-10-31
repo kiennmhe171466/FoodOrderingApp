@@ -11,6 +11,10 @@
         android:id="@+id/orderMenu"
         android:title="Your order"
         android:icon="@drawable/order_icon"/>
+    <item
+        android:id="@+id/chwg_pwd"
+        android:title="Change password"
+        android:icon="@drawable/order_icon"/>
 
     <item
         android:id="@+id/logoutMenu"

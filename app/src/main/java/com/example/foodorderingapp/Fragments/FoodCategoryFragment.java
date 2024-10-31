@@ -1,6 +1,5 @@
-package com.example.foodorderingapp.Fragments.Home;
+package com.example.foodorderingapp.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.foodorderingapp.Adapter.Home.FoodAdapter;
-import com.example.foodorderingapp.Adapter.Home.FoodItemAdapter;
-import com.example.foodorderingapp.Domain.Product;
-import com.example.foodorderingapp.databinding.FragmentFoodHomeBinding;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.foodorderingapp.Adapter.CategoryItemAdapter;
+import com.example.foodorderingapp.Domain.Category;
+import com.example.foodorderingapp.databinding.FragmentCategoryHomeBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -23,20 +20,20 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class FoodListFragment extends Fragment {
-    private FragmentFoodHomeBinding binding;
-    private ArrayList<Product> foodList;
-    private FoodItemAdapter adapter;
-    private String userId;
+public class FoodCategoryFragment  extends Fragment {
 
-    public FoodListFragment(String id) {
-        userId = id;
+
+    private FragmentCategoryHomeBinding binding;
+    private ArrayList<Category> categoryList;
+    private CategoryItemAdapter adapter;
+
+    public FoodCategoryFragment() {
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentFoodHomeBinding.inflate(inflater, container, false);
+        binding = FragmentCategoryHomeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         initData();
         initUI();
@@ -49,21 +46,21 @@ public class FoodListFragment extends Fragment {
                 LinearLayoutManager.HORIZONTAL,
                 false
         );
-        binding.rycFoodHome.setLayoutManager(linearLayoutManager);
-        adapter = new FoodItemAdapter(foodList, userId, getContext());
-        binding.rycFoodHome.setAdapter(adapter);
-        binding.rycFoodHome.setHasFixedSize(true);
+        binding.rycCategoryFood.setLayoutManager(linearLayoutManager);
+        adapter = new CategoryItemAdapter(categoryList, getContext());
+        binding.rycCategoryFood.setAdapter(adapter);
+        binding.rycCategoryFood.setHasFixedSize(true);
     }
 
     private void initData() {
-        foodList = new ArrayList<>();
-        FirebaseDatabase.getInstance().getReference("Products").addListenerForSingleValueEvent(new ValueEventListener() {
+        categoryList = new ArrayList<>();
+        FirebaseDatabase.getInstance().getReference("Category").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
-                    Product product = ds.getValue(Product.class);
-                    if (product != null) {
-                        foodList.add(product);
+                    Category category = ds.getValue(Category.class);
+                    if (category != null) {
+                        categoryList.add(category);
                     }
                 }
                 adapter.notifyDataSetChanged();

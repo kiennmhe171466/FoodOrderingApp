@@ -13,14 +13,13 @@
         android:theme="@style/Theme.FoodOrderingApp"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.Cart.CartActivity"
+            android:name=".Activities.HomeActivity"
             android:exported="false" />
+        <activity android:name=".Activities.LoginActivity" />
+        <activity android:name=".Activities.ProfileActivity" />
+        <activity android:name=".Activities.ChangePasswordActivity" />
         <activity
-            android:name=".Activities.Home.HomeActivity"
-            android:exported="false" />
-        <activity android:name=".Activities.Home.LoginActivity" />
-        <activity
-            android:name=".Activities.Home.IntroActivity"
+            android:name=".Activities.IntroActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,6 +27,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activities.ProductDetailActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
     </application>
 
 </manifest>

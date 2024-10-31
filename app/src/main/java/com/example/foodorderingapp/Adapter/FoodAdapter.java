@@ -1,10 +1,10 @@
-package com.example.foodorderingapp.Adapter.Home;
+package com.example.foodorderingapp.Adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.foodorderingapp.Fragments.Home.FoodListFragment;
+import com.example.foodorderingapp.Fragments.FoodListFragment;
 
 public class FoodAdapter extends FragmentStateAdapter {
     private final String userId;

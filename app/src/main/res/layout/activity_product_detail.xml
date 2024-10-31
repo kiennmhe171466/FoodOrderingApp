@@ -23,7 +23,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/productImg"
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
                     android:scaleType="centerCrop"
@@ -38,6 +38,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
                     android:padding="8dp"
+                    app:tint="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/arrow" />
@@ -64,11 +65,11 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/priceTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-                    android:text="$40"
+                    android:text="VND 0"
                     android:textColor="@color/red"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -123,6 +124,7 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="16sp"
                     android:textStyle="bold"
+                    android:onClick="SubtractQuantity"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView8"
                     app:layout_constraintTop_toTopOf="parent"
@@ -134,7 +136,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:gravity="center"
-                    android:text="10"
+                    android:text="0"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -153,6 +155,7 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="16sp"
                     android:textStyle="bold"
+                    android:onClick="AddQuantity"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/numTxt"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -170,7 +173,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button"
+            android:id="@+id/addToCartBtn"
             android:layout_width="180dp"
             style="@android:style/Widget.Button"
             android:background="@drawable/box_find_chat"
@@ -197,17 +200,17 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/button" />
+            app:layout_constraintTop_toTopOf="@+id/addToCartBtn" />
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/totalPriceTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="40$"
+            android:text="0 VND"
             android:textSize="16sp"
             android:textStyle="normal"
-            app:layout_constraintBottom_toBottomOf="@+id/button"
+            app:layout_constraintBottom_toBottomOf="@+id/addToCartBtn"
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

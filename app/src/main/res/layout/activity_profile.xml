@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="10dp"
-    tools:context=".Activities.Home.ProfileActivity">
+    tools:context=".Activities.ProfileActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -123,7 +123,7 @@
                 android:textColor="#717171"
                 android:textSize="15sp" />
 
-            <!-- New DOB TextView -->
+
             <TextView
                 android:id="@+id/user_dob"
                 android:layout_width="wrap_content"

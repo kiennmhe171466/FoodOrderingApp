@@ -114,7 +114,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         }
     }
 
-    private String convertToMoney(long price) {
+    private String convertToMoney(double price) {
         String temp = String.valueOf(price);
         String output = "";
         int count = 3;

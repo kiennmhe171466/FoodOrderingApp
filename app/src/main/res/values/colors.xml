@@ -23,4 +23,6 @@
     <color name="app_color2">#E8584D</color>
     <color name="back_color">#FFCCCC</color>
     <color name="blue_chat">#18A2FF</color>
+    <color name="transparent">#00000000</color>
+
 </resources>

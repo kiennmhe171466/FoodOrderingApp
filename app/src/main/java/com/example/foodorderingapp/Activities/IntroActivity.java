@@ -1,10 +1,13 @@
 package com.example.foodorderingapp.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.foodorderingapp.Adapter.ViewPagerAdapter;
+import com.example.foodorderingapp.R;
 import com.example.foodorderingapp.databinding.ActivityIntroBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -17,13 +20,15 @@ public class IntroActivity extends AppCompatActivity {
         binding = ActivityIntroBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Set up ViewPager with adapter
+
         ViewPagerAdapter adapter = new ViewPagerAdapter(this);
         binding.viewPager.setAdapter(adapter);
 
-        // Connect DotsIndicator with ViewPager2
+
         binding.dotsIndicator.setViewPager2(binding.viewPager);
 
-        FirebaseAuth.getInstance().signOut();  // Sign out if needed
+        FirebaseAuth.getInstance().signOut();
+
+
     }
 }

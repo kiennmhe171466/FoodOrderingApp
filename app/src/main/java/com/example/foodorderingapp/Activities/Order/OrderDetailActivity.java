@@ -50,7 +50,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         dsOrderInfo.clear();
-        FirebaseDatabase.getInstance().getReference("Bills").child(currentOrder.getBillId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("Orders").child(currentOrder.getOrderId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 currentOrder = snapshot.getValue(Order.class);
@@ -65,7 +65,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        FirebaseDatabase.getInstance().getReference("BillInfos").child(currentOrder.getBillId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("OrderInfos").child(currentOrder.getOrderId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot item : snapshot.getChildren()) {
@@ -98,19 +98,9 @@ public class OrderDetailActivity extends AppCompatActivity {
         binding.lnOderDetail.ryc.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         binding.lnOderDetail.ryc.setAdapter(adapter);
         binding.lnOderDetail.ryc.setHasFixedSize(true);
-        binding.lnOderDetail.txtTotalPrice.setText(convertToMoney(currentOrder.getTotalPrice()) + "đ");
-        binding.txtId.setText(currentOrder.getBillId());
+        binding.lnOderDetail.txtTotalPrice.setText(convertToMoney(currentOrder.getTotalPrice()) + "$");
+        binding.txtId.setText(currentOrder.getOrderId());
         binding.imgBack.setOnClickListener(view -> finish());
-
-        // If all BillInfos have been feedbacked, disable feedback button
-        if (currentOrder.isCheckAllComment()) {
-            binding.lnOderDetail.btn.setEnabled(false);
-            binding.lnOderDetail.btn.setBackgroundResource(R.drawable.background_feedback_disnable_button);
-        } else {
-            binding.lnOderDetail.btn.setEnabled(true);
-            binding.lnOderDetail.btn.setBackgroundResource(R.drawable.background_feedback_enable_button);
-        }
-
 
     }
 
@@ -137,7 +127,6 @@ public class OrderDetailActivity extends AppCompatActivity {
                 output = temp.charAt(i) + output;
             }
         }
-
         if (output.charAt(0) == ',') {
             return output.substring(1);
         }

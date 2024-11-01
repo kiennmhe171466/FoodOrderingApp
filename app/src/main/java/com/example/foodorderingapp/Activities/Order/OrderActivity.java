@@ -65,20 +65,17 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        FirebaseDatabase.getInstance().getReference("Bills").addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("Orders").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dsCurrentOrder.clear();
                 dsHistoryOrder.clear();
                 for (DataSnapshot item : snapshot.getChildren()) {
                     Order tmp = item.getValue(Order.class);
-                    if (tmp.getRecipientId().equalsIgnoreCase(userId)) {
-                        //Dòng dưới là test sản phẩm
-                        if (!tmp.getOrderStatus().equalsIgnoreCase("Completed")) {
-                            dsCurrentOrder.add(tmp);
-                        } else
-                            dsHistoryOrder.add(tmp);
-                    }
+                    if (!tmp.getOrderStatus().equalsIgnoreCase("Completed")) {
+                        dsCurrentOrder.add(tmp);
+                    } else
+                        dsHistoryOrder.add(tmp);
                 }
                 initUI();
             }

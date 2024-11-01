@@ -4,28 +4,21 @@ import java.io.Serializable;
 
 public class Order implements Serializable {
     private String addressId;
-    private String billId;
+    private String orderId;
     private String orderDate;
     private String orderStatus;
-    private boolean checkAllComment;
-    private String recipientId;
-    private String senderId;
+    private String userId;
     private long totalPrice;
     private String imageUrl;
 
-    public Order(String addressId, String billId, String orderDate, String orderStatus, boolean checkAllComment, String recipientId, String senderId, long totalPrice, String imageUrl) {
+    public Order(String addressId, String orderId, String orderDate, String orderStatus, String userId, long totalPrice, String imageUrl) {
         this.addressId = addressId;
-        this.billId = billId;
+        this.orderId = orderId;
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
-        this.checkAllComment = checkAllComment;
-        this.recipientId = recipientId;
-        this.senderId = senderId;
+        this.userId = userId;
         this.totalPrice = totalPrice;
         this.imageUrl = imageUrl;
-    }
-
-    public Order() {
     }
 
     public String getAddressId() {
@@ -36,12 +29,12 @@ public class Order implements Serializable {
         this.addressId = addressId;
     }
 
-    public String getBillId() {
-        return billId;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setBillId(String billId) {
-        this.billId = billId;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public String getOrderDate() {
@@ -60,20 +53,12 @@ public class Order implements Serializable {
         this.orderStatus = orderStatus;
     }
 
-    public String getRecipientId() {
-        return recipientId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setRecipientId(String recipientId) {
-        this.recipientId = recipientId;
-    }
-
-    public String getSenderId() {
-        return senderId;
-    }
-
-    public void setSenderId(String senderId) {
-        this.senderId = senderId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public long getTotalPrice() {
@@ -82,14 +67,6 @@ public class Order implements Serializable {
 
     public void setTotalPrice(long totalPrice) {
         this.totalPrice = totalPrice;
-    }
-
-    public boolean isCheckAllComment() {
-        return checkAllComment;
-    }
-
-    public void setCheckAllComment(boolean checkAllComment) {
-        this.checkAllComment = checkAllComment;
     }
 
     public String getImageUrl() {

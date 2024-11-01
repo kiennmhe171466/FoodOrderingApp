@@ -133,7 +133,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                                 Product product = snapshot.getValue(Product.class);
                                                                 int totalAmount = cart.getTotalAmount() - cartInfo.getAmount();
-                                                                double totalPrice = cart.getTotalPrice() - (long) (product.getProductPrice() * cartInfo.getAmount());
+                                                                double totalPrice = cart.getTotalPrice() - (product.getProductPrice() * cartInfo.getAmount());
 
                                                                 HashMap<String, Object> map = new HashMap<>();
                                                                 map.put("totalAmount", totalAmount);

@@ -58,26 +58,19 @@ public class CartActivity extends AppCompatActivity {
         // Get current products
         getCartProducts();
 
-        // On click for proceed order (current not have proceed order activity)
-//        binding.btnProceedOrder.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(CartActivity.this, ProceedOrderActivity.class);
-//                intent.putExtra("buyProducts", buyProducts);
-//                String totalPriceDisplay = binding.totalPrice.getText().toString();
-//                intent.putExtra("totalPrice", totalPriceDisplay);
-//                intent.putExtra("userId",userId);
-//                proceedOrderLauncher.launch(intent);
-//            }
-//        });
-
-//        EdgeToEdge.enable(this);
-//        setContentView(R.layout.activity_cart);
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
+         // On click for proceed order (current not have proceed order activity)
+        binding.btnProceedOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                buyProducts = new ArrayList<>(cartInfoList);
+                Intent intent = new Intent(CartActivity.this, ProceedOrderActivity.class);
+                intent.putExtra("buyProducts", buyProducts);
+                String totalPriceDisplay = binding.txtTotalAmount.getText().toString();
+                intent.putExtra("totalPrice", totalPriceDisplay);
+                intent.putExtra("userId",userId);
+                proceedOrderLauncher.launch(intent);
+            }
+        });
     }
 
     // Get cart products
@@ -88,7 +81,7 @@ public class CartActivity extends AppCompatActivity {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Cart cart = ds.getValue(Cart.class);
                     if (cart.getUserId().equals(userId)) {
-                        binding.txtTotalAmount.setText(String.format("%.2f$", cart.getTotalPrice()));
+                        binding.txtTotalAmount.setText(String.format("%.2f", cart.getTotalPrice()));
                         cartProductAdapter = new CartProductAdapter(CartActivity.this, cartInfoList, cart.getCartId(),userId);
                         cartProductAdapter.setAdapterItemListener(new IAdapterItemListener() {
                             @Override

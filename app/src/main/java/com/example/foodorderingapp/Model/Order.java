@@ -8,10 +8,10 @@ public class Order implements Serializable {
     private String orderDate;
     private String orderStatus;
     private String userId;
-    private long totalPrice;
+    private double totalPrice;
     private String imageUrl;
 
-    public Order(String addressId, String orderId, String orderDate, String orderStatus, String userId, long totalPrice, String imageUrl) {
+    public Order(String addressId, String orderId, String orderDate, String orderStatus, String userId, double totalPrice, String imageUrl) {
         this.addressId = addressId;
         this.orderId = orderId;
         this.orderDate = orderDate;
@@ -61,7 +61,7 @@ public class Order implements Serializable {
         this.userId = userId;
     }
 
-    public long getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 

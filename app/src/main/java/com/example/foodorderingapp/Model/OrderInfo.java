@@ -4,16 +4,16 @@ import java.io.Serializable;
 
 public class OrderInfo implements Serializable {
     private int amount;
-    private String billInfoId;
+    private String orderInfoId;
     private String productId;
     private boolean check;
 
     public OrderInfo() {
     }
 
-    public OrderInfo(int amount, String billInfoId, String productId, boolean check) {
+    public OrderInfo(int amount, String orderInfoId, String productId, boolean check) {
         this.amount = amount;
-        this.billInfoId = billInfoId;
+        this.orderInfoId = orderInfoId;
         this.productId = productId;
         this.check = check;
     }
@@ -26,12 +26,12 @@ public class OrderInfo implements Serializable {
         this.amount = amount;
     }
 
-    public String getBillInfoId() {
-        return billInfoId;
+    public String getOrderInfoId() {
+        return orderInfoId;
     }
 
-    public void setBillInfoId(String billInfoId) {
-        this.billInfoId = billInfoId;
+    public void setOrderInfoId(String orderInfoId) {
+        this.orderInfoId = orderInfoId;
     }
 
     public String getProductId() {

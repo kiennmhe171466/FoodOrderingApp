@@ -48,7 +48,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Order tmp = dsOrder.get(position);
-        holder.binding.txtId.setText(tmp.getBillId() + "");
+        holder.binding.txtId.setText(tmp.getOrderId() + "");
         holder.binding.txtDate.setText(tmp.getOrderDate() + "");
         holder.binding.txtStatus.setText(tmp.getOrderStatus());
 
@@ -58,7 +58,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
                 @Override
                 public void onClick(View view) {
                     // Confirm order status update directly
-                    new FirebaseStatusOrderHelper().setShippingToCompleted(tmp.getBillId(), new FirebaseStatusOrderHelper.DataStatus() {
+                    new FirebaseStatusOrderHelper().setShippingToCompleted(tmp.getOrderId(), new FirebaseStatusOrderHelper.DataStatus() {
                         @Override
                         public void DataIsLoaded(List<Order> orders, boolean isExistingBill) {
                         }
@@ -81,13 +81,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         } else {
             holder.binding.txtStatus.setTextColor(Color.parseColor("#48DC7D"));
             holder.binding.btnSee.setText("Feedback & Rate");
-            if (tmp.isCheckAllComment()) {
-                holder.binding.btnSee.setEnabled(false);
-                holder.binding.btnSee.setBackgroundResource(R.drawable.background_feedback_disnable_button);
-            } else {
-                holder.binding.btnSee.setEnabled(true);
-                holder.binding.btnSee.setBackgroundResource(R.drawable.background_feedback_enable_button);
-            }
+
             holder.binding.btnSee.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -109,7 +103,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             }
         });
 
-        FirebaseDatabase.getInstance().getReference("BillInfos").child(tmp.getBillId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("BillInfos").child(tmp.getOrderId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 OrderInfo tmp = new OrderInfo();

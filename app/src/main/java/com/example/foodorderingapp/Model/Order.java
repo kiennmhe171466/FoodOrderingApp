@@ -11,6 +11,11 @@ public class Order implements Serializable {
     private double totalPrice;
     private String imageUrl;
 
+    // Default constructor (required by Firebase)
+    public Order() {
+    }
+
+    // Parameterized constructor
     public Order(String addressId, String orderId, String orderDate, String orderStatus, String userId, double totalPrice, String imageUrl) {
         this.addressId = addressId;
         this.orderId = orderId;
@@ -21,6 +26,7 @@ public class Order implements Serializable {
         this.imageUrl = imageUrl;
     }
 
+    // Getters and setters
     public String getAddressId() {
         return addressId;
     }
@@ -65,7 +71,7 @@ public class Order implements Serializable {
         return totalPrice;
     }
 
-    public void setTotalPrice(long totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 

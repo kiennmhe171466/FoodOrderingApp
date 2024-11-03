@@ -1,14 +1,17 @@
 package com.example.foodorderingapp.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.foodorderingapp.Activities.LoginActivity;
 import com.example.foodorderingapp.R;
 
 public class IntroFragment1 extends Fragment {
@@ -19,3 +22,4 @@ public class IntroFragment1 extends Fragment {
         return inflater.inflate(R.layout.fragment_intro1, container, false);
     }
 }
+

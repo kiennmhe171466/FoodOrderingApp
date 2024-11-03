@@ -1,5 +1,6 @@
 package com.example.foodorderingapp.Activities.Order;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -81,6 +82,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("DefaultLocale")
     private void initUI() {
         String status = currentOrder.getOrderStatus();
         if (status.equalsIgnoreCase("Completed")) {
@@ -96,7 +98,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         binding.lnOderDetail.ryc.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         binding.lnOderDetail.ryc.setAdapter(adapter);
         binding.lnOderDetail.ryc.setHasFixedSize(true);
-        binding.lnOderDetail.txtTotalPrice.setText(convertToMoney(currentOrder.getTotalPrice()) + "$");
+        binding.lnOderDetail.txtTotalPrice.setText(String.format("%.2f", currentOrder.getTotalPrice()));
         binding.txtId.setText(currentOrder.getOrderId());
         binding.imgBack.setOnClickListener(view -> finish());
 
@@ -112,23 +114,5 @@ public class OrderDetailActivity extends AppCompatActivity {
         }
     }
 
-    private String convertToMoney(double price) {
-        String temp = String.valueOf(price);
-        String output = "";
-        int count = 3;
-        for (int i = temp.length() - 1; i >= 0; i--) {
-            count--;
-            if (count == 0) {
-                count = 3;
-                output = "," + temp.charAt(i) + output;
-            } else {
-                output = temp.charAt(i) + output;
-            }
-        }
-        if (output.charAt(0) == ',') {
-            return output.substring(1);
-        }
 
-        return output;
-    }
 }

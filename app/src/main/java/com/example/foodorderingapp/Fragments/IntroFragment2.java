@@ -19,16 +19,6 @@ public class IntroFragment2 extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_intro2, container, false);
-        Button skipButton = view.findViewById(R.id.skipButton);
-        skipButton.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
-            if (getActivity() != null) {
-                getActivity().finish();
-            }
-        });
-        return view;
+        return inflater.inflate(R.layout.fragment_intro2, container, false);
     }
-
 }

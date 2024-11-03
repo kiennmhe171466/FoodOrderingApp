@@ -15,22 +15,11 @@ import com.example.foodorderingapp.Activities.LoginActivity;
 import com.example.foodorderingapp.R;
 
 public class IntroFragment1 extends Fragment {
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_intro1, container, false);
-
-        Button skipButton = view.findViewById(R.id.skipButton);
-        skipButton.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
-            if (getActivity() != null) {
-                getActivity().finish();
-            }
-        });
-
-        return view;
+        return inflater.inflate(R.layout.fragment_intro1, container, false);
     }
 }
+

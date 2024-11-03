@@ -13,17 +13,4 @@
         android:src="@drawable/intro_3"
         android:scaleType="centerCrop" />
 
-    <Button
-        android:id="@+id/skipButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="304dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/transparent"
-        android:padding="8dp"
-        android:text="Skip"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -124,7 +124,7 @@ public class ProceedOrderActivity extends AppCompatActivity {
                                 String orderInfoId = FirebaseDatabase.getInstance().getReference("OrderInfos").push().getKey();
                                 HashMap<String, Object> orderInfoMap = new HashMap<>();
                                 orderInfoMap.put("amount", cartInfo.getAmount());
-                                orderInfoMap.put("billInfoId", orderInfoId);
+                                orderInfoMap.put("orderInfoId", orderInfoId);
                                 orderInfoMap.put("productId", cartInfo.getProductId());
 
                                 // Lưu OrderInfo theo cấu trúc

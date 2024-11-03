@@ -102,9 +102,9 @@ public class ProceedOrderActivity extends AppCompatActivity {
                 double totalPrice = 0;
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Product product = ds.getValue(Product.class);
-                    CartInfo cartInfo = cartInfoMap.get(product.getProductId());
+                    CartInfo cartInfo = cartInfoMap.get(String.valueOf(product.getProductId()));
                     if (cartInfo != null) {
-                        totalPrice += (double) product.getProductPrice() * cartInfo.getAmount();
+                        totalPrice +=  product.getProductPrice() * cartInfo.getAmount();
                     }
                 }
                 // Tạo address

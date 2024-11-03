@@ -61,7 +61,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
                     }
                 }
         );
-        holder.binding.txtCount.setText("Count: " + orderInfo.getAmount());
+        holder.binding.txtCount.setText("Amount: " + orderInfo.getAmount());
     }
 
     @Override

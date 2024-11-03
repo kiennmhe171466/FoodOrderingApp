@@ -98,7 +98,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         binding.lnOderDetail.ryc.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         binding.lnOderDetail.ryc.setAdapter(adapter);
         binding.lnOderDetail.ryc.setHasFixedSize(true);
-        binding.lnOderDetail.txtTotalPrice.setText(String.format("%.2f", currentOrder.getTotalPrice()));
+        binding.lnOderDetail.txtTotalPrice.setText(String.format("%.2fđ", currentOrder.getTotalPrice()));
         binding.txtId.setText(currentOrder.getOrderId());
         binding.imgBack.setOnClickListener(view -> finish());
 

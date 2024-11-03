@@ -51,6 +51,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.binding.txtId.setText(tmp.getOrderId() + "");
         holder.binding.txtDate.setText(tmp.getOrderDate() + "");
         holder.binding.txtStatus.setText(tmp.getOrderStatus());
+        holder.binding.txtTotal.setText(String.format("%.2fđ", tmp.getTotalPrice()));
+
 
         if (type == OrderActivity.CURRENT_ORDER) {
             holder.binding.btnSee.setText("Received");

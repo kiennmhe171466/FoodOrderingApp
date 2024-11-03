@@ -5,13 +5,13 @@ import java.io.Serializable;
 public class OrderInfo implements Serializable {
     private int amount;
     private String orderInfoId;
-    private String productId;
+    private int productId;
     private boolean check;
 
     public OrderInfo() {
     }
 
-    public OrderInfo(int amount, String orderInfoId, String productId, boolean check) {
+    public OrderInfo(int amount, String orderInfoId, int productId, boolean check) {
         this.amount = amount;
         this.orderInfoId = orderInfoId;
         this.productId = productId;
@@ -34,11 +34,11 @@ public class OrderInfo implements Serializable {
         this.orderInfoId = orderInfoId;
     }
 
-    public String getProductId() {
+    public int getProductId() {
         return productId;
     }
 
-    public void setProductId(String productId) {
+    public void setProductId(int productId) {
         this.productId = productId;
     }
 

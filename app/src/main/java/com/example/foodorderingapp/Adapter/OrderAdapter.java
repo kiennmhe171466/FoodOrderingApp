@@ -57,7 +57,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             holder.binding.btnSee.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // Confirm order status update directly
                     new FirebaseStatusOrderHelper().setShippingToCompleted(tmp.getOrderId(), new FirebaseStatusOrderHelper.DataStatus() {
                         @Override
                         public void DataIsLoaded(List<Order> orders, boolean isExistingBill) {
@@ -80,8 +79,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             });
         } else {
             holder.binding.txtStatus.setTextColor(Color.parseColor("#48DC7D"));
-            holder.binding.btnSee.setText("Feedback & Rate");
-
             holder.binding.btnSee.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -103,7 +100,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             }
         });
 
-        FirebaseDatabase.getInstance().getReference("BillInfos").child(tmp.getOrderId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("OrderInfos")
+                .child(tmp.getOrderId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 OrderInfo tmp = new OrderInfo();
@@ -111,7 +109,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
                     tmp = item.getValue(OrderInfo.class);
                     break;
                 }
-                FirebaseDatabase.getInstance().getReference("Products").child(tmp.getProductId()).child("productImage1").addListenerForSingleValueEvent(new ValueEventListener() {
+                FirebaseDatabase.getInstance().getReference("Products").child(String.valueOf(tmp.getProductId())).child("productImage").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         Glide.with(context)

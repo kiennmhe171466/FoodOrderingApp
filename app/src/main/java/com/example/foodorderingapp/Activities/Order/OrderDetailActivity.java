@@ -39,9 +39,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(Color.parseColor("#E8584D"));
         getWindow().setNavigationBarColor(Color.parseColor("#E8584D"));
 
-        // Get Intent
         Intent intent = getIntent();
-        // Initialize data
         currentOrder = (Order) intent.getSerializableExtra("Order");
         userId = intent.getStringExtra("userId");
     }
@@ -50,7 +48,8 @@ public class OrderDetailActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         dsOrderInfo.clear();
-        FirebaseDatabase.getInstance().getReference("Orders").child(currentOrder.getOrderId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("Orders")
+                .child(currentOrder.getOrderId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 currentOrder = snapshot.getValue(Order.class);
@@ -59,7 +58,6 @@ public class OrderDetailActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle possible errors.
             }
         });
     }

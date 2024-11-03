@@ -39,7 +39,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         OrderInfo orderInfo = ds.get(position);
-        FirebaseDatabase.getInstance().getReference("Products").child(orderInfo.getProductId()).addListenerForSingleValueEvent(
+        FirebaseDatabase.getInstance().getReference("Products").child(String.valueOf(orderInfo.getProductId())).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -101,58 +102,46 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // Remove from Firebase CartInfos
-                                FirebaseDatabase.getInstance().getReference().child("CartInfos")
-                                        .child(cartId)
-                                        .child(cartInfo.getCartInfoId())
-                                        .removeValue()
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    // Show a simple toast message
-                                                    Toast.makeText(mContext, "Delete product successfully!", Toast.LENGTH_SHORT).show();
-                                                    if (adapterItemListener != null) {
-                                                        adapterItemListener.onDeleteProduct();
-                                                    }
-                                                }
-                                            }
-                                        });
 
-                                // Update cart totals
-                                FirebaseDatabase.getInstance().getReference().child("Carts")
-                                        .child(cartId)
-                                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                Cart cart = snapshot.getValue(Cart.class);
-                                                FirebaseDatabase.getInstance().getReference().child("Products")
-                                                        .child(String.valueOf(cartInfo.getProductId()))
-                                                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                                                            @Override
-                                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                                Product product = snapshot.getValue(Product.class);
-                                                                int totalAmount = cart.getTotalAmount() - cartInfo.getAmount();
-                                                                double totalPrice = cart.getTotalPrice() - (product.getProductPrice() * cartInfo.getAmount());
+                                DatabaseReference cartsRef = FirebaseDatabase.getInstance().getReference().child("Carts").child(cartId);
+                                DatabaseReference productsRef = FirebaseDatabase.getInstance().getReference().child("Products").child(String.valueOf(cartInfo.getProductId()));
+                                DatabaseReference cartInfosRef = FirebaseDatabase.getInstance().getReference().child("CartInfos").child(cartId).child(cartInfo.getCartInfoId());
 
-                                                                HashMap<String, Object> map = new HashMap<>();
-                                                                map.put("totalAmount", totalAmount);
-                                                                map.put("totalPrice", totalPrice);
-                                                                FirebaseDatabase.getInstance().getReference().child("Carts").child(cartId).updateChildren(map);
-                                                            }
+                                cartsRef.get().addOnSuccessListener(cartSnapshot -> {
+                                    Cart cart = cartSnapshot.getValue(Cart.class);
 
-                                                            @Override
-                                                            public void onCancelled(@NonNull DatabaseError error) {
-                                                                // Handle error
+                                    productsRef.get().addOnSuccessListener(productSnapshot -> {
+                                        Product product = productSnapshot.getValue(Product.class);
+
+                                        cartInfosRef.get().addOnSuccessListener(cartInfoSnapshot -> {
+                                            if (cartInfoSnapshot.exists()) {
+                                                CartInfo cartInfoCurrent = cartInfoSnapshot.getValue(CartInfo.class);
+
+                                                int totalAmount = cart.getTotalAmount() - cartInfoCurrent.getAmount();
+                                                double totalPrice = cart.getTotalPrice() - (product.getProductPrice() * cartInfoCurrent.getAmount());
+
+                                                HashMap<String, Object> cartUpdateMap = new HashMap<>();
+                                                cartUpdateMap.put("totalAmount", totalAmount);
+                                                cartUpdateMap.put("totalPrice", totalPrice);
+
+                                                cartsRef.updateChildren(cartUpdateMap)
+                                                        .addOnCompleteListener(task -> {
+                                                            if (task.isSuccessful()) {
+                                                                cartInfosRef.removeValue().addOnCompleteListener(deleteTask -> {
+                                                                    if (deleteTask.isSuccessful()) {
+                                                                        Toast.makeText(mContext, "Delete product successfully!", Toast.LENGTH_SHORT).show();
+                                                                        if (adapterItemListener != null) {
+                                                                            adapterItemListener.onDeleteProduct();
+                                                                        }
+                                                                    }
+                                                                });
                                                             }
                                                         });
                                             }
-
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-                                                // Handle error
-                                            }
                                         });
+                                    });
+                                });
+
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {

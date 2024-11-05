@@ -52,6 +52,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
                                     .load(tmp.getProductImage())
                                     .placeholder(R.drawable.default_image)
                                     .into(holder.binding.imgFood);
+
                         }
                     }
 

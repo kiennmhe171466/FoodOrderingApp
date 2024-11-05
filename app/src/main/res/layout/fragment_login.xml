@@ -28,7 +28,7 @@
             android:id="@+id/loginText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Welcome"
+            android:text="Welcome to KongFuong Restaurant"
             android:textAlignment="center"
             android:textColor="@color/app_color2"
             android:textSize="24sp"
@@ -41,12 +41,14 @@
             android:layout_marginTop="-10dp"
             app:startIconDrawable="@drawable/baseline_email_24"
             android:hint="Email">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:lines="1" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -67,19 +69,20 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Checkbox for Remember Me -->
-        <CheckBox
-            android:id="@+id/checkboxRememberMe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Remember Me"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <CheckBox
+                android:id="@+id/checkboxRememberMe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remember Me"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
             <TextView
                 android:id="@+id/forgotpassText"
                 android:layout_width="150dp"
@@ -94,13 +97,15 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnReset"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_margin="10dp"
+            android:background="@color/app_color2"
             android:layout_gravity="center"
             android:text="Login" />
+
     </LinearLayout>
 
 </LinearLayout>

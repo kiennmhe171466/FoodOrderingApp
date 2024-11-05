@@ -12,8 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodorderingapp.Adapter.OrderDetailAdapter;
+import com.example.foodorderingapp.Model.Address;
 import com.example.foodorderingapp.Model.Order;
 import com.example.foodorderingapp.Model.OrderInfo;
+import com.example.foodorderingapp.Model.User;
 import com.example.foodorderingapp.R;
 import com.example.foodorderingapp.databinding.ActivityOrderDetailBinding;
 import com.google.firebase.database.DataSnapshot;
@@ -100,6 +102,23 @@ public class OrderDetailActivity extends AppCompatActivity {
         binding.lnOderDetail.ryc.setHasFixedSize(true);
         binding.lnOderDetail.txtTotalPrice.setText(String.format("%.2fđ", currentOrder.getTotalPrice()));
         binding.txtId.setText(currentOrder.getOrderId());
+        FirebaseDatabase.getInstance().getReference().child("Addresses").child(currentOrder.getAddressId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Address address = snapshot.getValue(Address.class);
+                if(address != null){
+                    binding.lnOderDetail.txtAddress.setText(address.getDetailAddress());
+                    binding.lnOderDetail.txtPhone.setText((address.getReceiverPhoneNumber()));
+                    binding.lnOderDetail.txtRecipient.setText(address.getReceiverName());
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         binding.imgBack.setOnClickListener(view -> finish());
 
     }

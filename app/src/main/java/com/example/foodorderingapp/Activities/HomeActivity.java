@@ -75,6 +75,10 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
+    protected void onStart() {
+        super.onStart();
+        loadUserInfoToHeader();
+    }
     private void createActionBar() {
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();

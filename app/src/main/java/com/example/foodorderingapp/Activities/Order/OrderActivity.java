@@ -72,10 +72,12 @@ public class OrderActivity extends AppCompatActivity {
                 dsHistoryOrder.clear();
                 for (DataSnapshot item : snapshot.getChildren()) {
                     Order tmp = item.getValue(Order.class);
-                    if (!tmp.getOrderStatus().equalsIgnoreCase("Completed")) {
-                        dsCurrentOrder.add(tmp);
-                    } else
-                        dsHistoryOrder.add(tmp);
+                    if(tmp.getUserId().equalsIgnoreCase(userId)) {
+                        if (!tmp.getOrderStatus().equalsIgnoreCase("Completed")) {
+                            dsCurrentOrder.add(tmp);
+                        } else
+                            dsHistoryOrder.add(tmp);
+                    }
                 }
                 initUI();
             }

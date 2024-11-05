@@ -36,7 +36,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -51,7 +50,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
     implementation ("com.orhanobut:dialogplus:1.11@aar")
-    implementation ("androidx.viewpager2:viewpager2:1.0.0")
+    implementation ("androidx.viewpager2:viewpager2:1.0.0 ")
     implementation("com.tbuonomo:dotsindicator:5.0")
 
 }

@@ -53,7 +53,6 @@ public class HomeActivity extends AppCompatActivity
         loadUserInfoToHeader();
     }
     private void initUI() {
-        getWindow().setStatusBarColor(Color.parseColor("#E8584D"));
         getWindow().setNavigationBarColor(Color.parseColor("#E8584D"));
         binding.navigationLeft.bringToFront();
         createActionBar();
@@ -105,7 +104,6 @@ public class HomeActivity extends AppCompatActivity
                                                             startActivity(intent);
                                                         }
                                                     }
-
                                                     @Override
                                                     public void onCancelled(@NonNull DatabaseError error) {
                                                         Toast.makeText(HomeActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
@@ -192,7 +190,6 @@ public class HomeActivity extends AppCompatActivity
                                     .into(imgAvatar);
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         Toast.makeText(HomeActivity.this, "Failed to load user info", Toast.LENGTH_SHORT).show();

@@ -54,13 +54,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         initToolbar();
         getUserInfo(this);
-
-        binding.cardViewOrders.setOnClickListener(view -> {
-            Intent intent1 = new Intent(ProfileActivity.this, OrderActivity.class);
-            intent1.putExtra("userId", userId);
-            startActivity(intent1);
-        });
-
         binding.change.setOnClickListener(view -> showEditProfileDialog());
     }
 

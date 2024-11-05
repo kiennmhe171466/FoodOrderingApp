@@ -19,9 +19,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
-
-
-
             <!-- Address Section -->
             <TextView
                 android:id="@+id/address_detail"

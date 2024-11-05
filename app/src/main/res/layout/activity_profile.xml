@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:background="?android:attr/windowBackground"
         android:elevation="40dp" />
-
     <TextView
         android:id="@+id/my_profile"
         android:layout_width="wrap_content"
@@ -141,51 +140,4 @@
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/txtShortCut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/card_view_profile"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="25dp"
-        android:text="Shortcut"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:fontFamily="sans-serif-light" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_view_orders"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_below="@id/txtShortCut"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginTop="25dp"
-        app:cardCornerRadius="20dp"
-        android:elevation="40dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="30dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:weightSum="10">
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                app:srcCompat="@drawable/historyicon" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="9"
-                android:fontFamily="sans-serif"
-                android:text="My Orders"
-                android:textSize="20sp" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
 </RelativeLayout>

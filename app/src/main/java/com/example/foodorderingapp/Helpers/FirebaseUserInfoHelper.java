@@ -16,8 +16,6 @@ public class FirebaseUserInfoHelper {
     private Context mContext;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReference;
-
-
     public interface DataStatus{
         void DataIsLoaded(User user);
         void DataIsInserted();
@@ -35,6 +33,7 @@ public class FirebaseUserInfoHelper {
                 .addOnSuccessListener(aVoid -> Log.d("Firebase", "User updated successfully"))
                 .addOnFailureListener(e -> Log.e("Firebase", "Failed to update user", e));
     }
+
     public void readUserInfo(String userId, final FirebaseUserInfoHelper.DataStatus dataStatus)
     {
         mReference.child("Users").child(userId).addValueEventListener(new ValueEventListener() {
@@ -45,7 +44,6 @@ public class FirebaseUserInfoHelper {
                     dataStatus.DataIsLoaded(user);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

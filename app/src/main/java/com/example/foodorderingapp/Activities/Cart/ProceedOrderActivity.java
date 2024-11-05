@@ -16,12 +16,14 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.foodorderingapp.Activities.HomeActivity;
+import com.example.foodorderingapp.Activities.ProfileActivity;
 import com.example.foodorderingapp.Adapter.OrderSummaryAdapter;
 import com.example.foodorderingapp.Model.Address;
 import com.example.foodorderingapp.Model.Cart;
 import com.example.foodorderingapp.Model.CartInfo;
 import com.example.foodorderingapp.Model.Order;
 import com.example.foodorderingapp.Model.Product;
+import com.example.foodorderingapp.Model.User;
 import com.example.foodorderingapp.R;
 import com.example.foodorderingapp.databinding.ActivityProceedOrderBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -62,9 +64,21 @@ public class ProceedOrderActivity extends AppCompatActivity {
         // Display total price
         totalPriceDisplay = getIntent().getStringExtra("totalPrice");
         binding.totalPrice.setText(totalPriceDisplay);
-
         userId = getIntent().getStringExtra("userId");
-
+        FirebaseDatabase.getInstance().getReference().child("Users").child(userId)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User user = snapshot.getValue(User.class);
+                        if (user != null) {
+                            binding.inputName.setText(user.getUserName());
+                            binding.inputPhoneNo.setText(user.getPhoneNumber());
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
         // onclick for proceed order
         binding.complete.setOnClickListener(v -> processOrder());
 

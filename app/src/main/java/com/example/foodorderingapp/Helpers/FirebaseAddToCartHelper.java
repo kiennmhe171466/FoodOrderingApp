@@ -17,24 +17,18 @@ public class FirebaseAddToCartHelper {
     private DatabaseReference mReferenceCart;
     private String userId;
     private int productId;
-
     public interface DataStatus {
         void DataIsLoaded(Cart cart, CartInfo cartInfo, boolean isExistsCart, boolean isExistsProduct);
-
         void DataIsInserted();
-
         void DataIsUpdated();
-
         void DataIsDeleted();
     }
-
     public FirebaseAddToCartHelper(String userId, int productId) {
         this.userId = userId;
         this.productId = productId;
         mDatabase = FirebaseDatabase.getInstance();
         mReferenceCart = mDatabase.getReference();
     }
-
     public FirebaseAddToCartHelper() {
         mDatabase = FirebaseDatabase.getInstance();
         mReferenceCart = mDatabase.getReference();

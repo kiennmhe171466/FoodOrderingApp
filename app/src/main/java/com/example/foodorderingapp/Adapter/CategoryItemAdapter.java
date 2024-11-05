@@ -31,6 +31,7 @@ public class CategoryItemAdapter extends RecyclerView.Adapter {
       ViewHolder viewHolder = (ViewHolder) holder;
         Category category = categoryArrayList.get(position);
         viewHolder.binding.txtCategoryName.setText(category.getCategoryName());
+
         Glide.with(mContext)
                 .load(category.getImagePath())
                 .into(viewHolder.binding.imgCategory);

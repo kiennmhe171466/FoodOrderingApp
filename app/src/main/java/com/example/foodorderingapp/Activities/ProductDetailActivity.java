@@ -61,6 +61,10 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int num = Integer.parseInt(binding.numTxt.getText().toString());
+                if(num == 0){
+                    Toast.makeText(ProductDetailActivity.this, "You must choose quantity first!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 updateCart(isCartExists[0], isProductExists[0], currentCart[0], currentCartInfo[0], num);
             }
         });
@@ -178,8 +182,33 @@ public class ProductDetailActivity extends AppCompatActivity {
                     }
                 });
 
-            } else {  // truong hop da co san pham hien tai trong gio hang
-                Toast.makeText(ProductDetailActivity.this, "This product has already been in the cart!", Toast.LENGTH_SHORT).show();
+            } else {
+                // truong hop da co san pham hien tai trong gio hang
+                currentCartInfo.setAmount(currentCartInfo.getAmount() + amount);
+                currentCart.setTotalAmount(currentCart.getTotalAmount() + amount);
+                currentCart.setTotalPrice(currentCart.getTotalPrice() + amount * productPrice);
+
+                new FirebaseAddToCartHelper().updateCart(currentCart, currentCartInfo, true, new FirebaseAddToCartHelper.DataStatus() {
+                    @Override
+                    public void DataIsLoaded(Cart cart, CartInfo cartInfo, boolean isExistsCart, boolean isExistsProduct) {
+                        // Handle data load if necessary
+                    }
+
+                    @Override
+                    public void DataIsInserted() {
+                        // Not applicable here
+                    }
+
+                    @Override
+                    public void DataIsUpdated() {
+                        Toast.makeText(ProductDetailActivity.this, "The product quantity has been updated in the cart!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void DataIsDeleted() {
+                        // Not applicable here
+                    }
+                });
             }
         }
     }

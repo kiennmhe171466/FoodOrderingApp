@@ -52,6 +52,10 @@ public class HomeActivity extends AppCompatActivity
         initUI();
         loadUserInfoToHeader();
     }
+    protected void onStart() {
+        super.onStart();
+        loadUserInfoToHeader();
+    }
     private void initUI() {
         getWindow().setStatusBarColor(Color.parseColor("#E8584D"));
         getWindow().setNavigationBarColor(Color.parseColor("#E8584D"));

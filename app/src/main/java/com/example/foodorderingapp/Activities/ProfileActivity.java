@@ -54,7 +54,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         initToolbar();
         getUserInfo(this);
-        binding.change.setOnClickListener(view -> showEditProfileDialog());
+            binding.change.setOnClickListener(view -> showEditProfileDialog());
     }
 
     private void initToolbar() {

@@ -168,8 +168,12 @@ public class ProfileActivity extends AppCompatActivity {
                     dobField.setText(dob);
                 }, year, month, day);
 
+        // Set the maximum date to today
+        datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
         datePickerDialog.show();
     }
+
 
     private void uploadImageToFirebase(DialogPlus dialog, EditText editUserName,
                                        EditText editUserPhone, EditText editUserDob) {
